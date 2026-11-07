@@ -1,0 +1,1023 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>IELTS Vocab Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: a two-mode study app — flashcard decks on the left of mind, quiz runner centre-stage.
+   Warm paper-ink identity for the "lab notebook" feel, teal accent for action, amber for review. */
+:root{
+  --bg:#f4f1ea;           /* warm paper */
+  --surface:#fffdf8;      /* card */
+  --surface-2:#efeadf;    /* sunken */
+  --ink:#282420;          /* near-black ink, warm */
+  --ink-soft:#6b655c;     /* muted ink */
+  --line:#ddd6c8;         /* hairline */
+  --accent:#0e7c6b;       /* teal — primary action */
+  --accent-soft:#d6ebe6;
+  --amber:#b5781a;        /* review/retry */
+  --amber-soft:#f3e4c9;
+  --good:#1f7a4d;
+  --good-soft:#d8ecdf;
+  --bad:#b23b36;
+  --bad-soft:#f3dcd9;
+  --shadow:0 1px 2px rgba(40,36,32,.06),0 8px 24px rgba(40,36,32,.08);
+  --r:14px;
+  --maxw:860px;
+  --serif:"Fraunces","Georgia",serif;
+  --sans:"Inter","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#191714; --surface:#232019; --surface-2:#2c281f; --ink:#f0ebe1; --ink-soft:#a8a192;
+  --line:#3a352b; --accent:#3ec9af; --accent-soft:#143c36; --amber:#e3a94a; --amber-soft:#3b2f18;
+  --good:#5fc98c; --good-soft:#163a28; --bad:#e8766f; --bad-soft:#3d201e;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.4); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#191714; --surface:#232019; --surface-2:#2c281f; --ink:#f0ebe1; --ink-soft:#a8a192;
+  --line:#3a352b; --accent:#3ec9af; --accent-soft:#143c36; --amber:#e3a94a; --amber-soft:#3b2f18;
+  --good:#5fc98c; --good-soft:#163a28; --bad:#e8766f; --bad-soft:#3d201e;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.4); color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--serif);font-weight:600;text-wrap:balance;margin:0;line-height:1.15}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;font-size:1rem}
+.btn{display:inline-flex;align-items:center;gap:.5em;padding:.7em 1.3em;border-radius:999px;font-weight:600;background:var(--accent);color:#fff;box-shadow:var(--shadow);transition:transform .08s,filter .15s;font-size:.98rem}
+.btn:hover{filter:brightness(1.07)} .btn:active{transform:translateY(1px)}
+.btn:focus-visible,button:focus-visible,.deck:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px}
+.btn.ghost{background:var(--surface);color:var(--ink);border:1.5px solid var(--line);box-shadow:none}
+.btn.amber{background:var(--amber)}
+.btn[disabled]{opacity:.4;cursor:not-allowed;filter:none;transform:none}
+.eyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+
+/* ---- top bar ---- */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;padding-block:.65rem;gap:.5rem}
+.brand{display:flex;align-items:center;gap:.6rem;font-family:var(--serif);font-weight:600;font-size:1.12rem}
+.brand .dot{width:26px;height:26px;border-radius:8px;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:.9rem;flex:none}
+.brand{border:none;background:none;cursor:pointer}
+.btn.sm{padding:.55em 1em;font-size:.86rem}
+.deck-actions{display:flex;gap:.5rem;margin-top:.3rem}
+.deck-actions .btn{flex:1}
+.icon-btn{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--line);background:var(--surface);flex:none}
+
+section.view{padding-block:1.6rem 4rem;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---- home ---- */
+.hero{margin-bottom:1.8rem}
+.hero h1{font-size:clamp(1.9rem,6vw,2.9rem);margin-bottom:.4rem}
+.hero p{color:var(--ink-soft);max-width:56ch;margin:0}
+.grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.deck{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:1.15rem;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:.55rem;transition:transform .12s,border-color .15s}
+.deck:hover{transform:translateY(-3px);border-color:var(--accent)}
+.deck .top-row{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem}
+.deck h3{font-size:1.18rem}
+.deck .tag{font-size:.68rem;font-weight:700;letter-spacing:.05em;padding:.2em .6em;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.deck .meta{font-size:.82rem;color:var(--ink-soft);display:flex;gap:.9rem;flex-wrap:wrap}
+.deck .bar{height:6px;border-radius:999px;background:var(--surface-2);overflow:hidden;margin-top:.1rem}
+.deck .bar>i{display:block;height:100%;background:var(--good);border-radius:999px;transition:width .5s}
+.deck .status{font-size:.78rem;font-weight:600}
+.callout{background:var(--amber-soft);border:1px solid color-mix(in srgb,var(--amber) 30%,transparent);border-radius:var(--r);padding:1rem 1.15rem;margin-bottom:1.6rem;display:flex;gap:.8rem;align-items:flex-start;font-size:.92rem}
+.callout b{color:var(--amber)}
+
+/* ---- flashcards ---- */
+.fc-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.fc-count{font-size:.85rem;color:var(--ink-soft);font-weight:600}
+.flash{perspective:1600px;max-width:560px;margin:0 auto}
+.flash-inner{position:relative;width:100%;min-height:300px;transition:transform .5s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d;cursor:pointer}
+.flash.flipped .flash-inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:1.8rem;display:flex;flex-direction:column;justify-content:center;gap:.8rem}
+.face.back{transform:rotateY(180deg);justify-content:flex-start;overflow-y:auto}
+.face .pos{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.face .word{font-family:var(--serif);font-size:clamp(1.7rem,5vw,2.3rem);line-height:1.1}
+.face .ipa{color:var(--ink-soft);font-size:.95rem;font-family:var(--sans)}
+.flip-hint{text-align:center;color:var(--ink-soft);font-size:.8rem;margin-top:.3rem}
+.def-block{margin-top:.2rem}
+.def-label{font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;margin-bottom:.15rem}
+.def-en{font-weight:500}
+.def-vi{color:var(--ink-soft);font-style:italic;margin-top:.15rem}
+.eg{background:var(--surface-2);border-left:3px solid var(--accent);border-radius:8px;padding:.6rem .8rem;font-size:.92rem;margin-top:.7rem}
+.eg em{color:var(--accent);font-style:normal;font-weight:600}
+.colloc{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.7rem}
+.colloc span{font-size:.8rem;background:var(--accent-soft);color:var(--accent);padding:.2em .7em;border-radius:999px;font-weight:600}
+.fc-nav{display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:1.4rem}
+.fc-nav .dots{display:flex;gap:.3rem;flex-wrap:wrap;max-width:260px;justify-content:center}
+.fc-nav .dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.fc-nav .dots i.on{background:var(--accent);transform:scale(1.3)}
+.fc-done{text-align:center;max-width:460px;margin:1.5rem auto 0;padding:1.3rem;background:var(--accent-soft);border-radius:var(--r)}
+
+/* ---- quiz ---- */
+.quiz-head{margin-bottom:1.1rem;display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap}
+.qpos{font-size:.8rem;color:var(--ink-soft);font-weight:600;font-variant-numeric:tabular-nums}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:1.5rem}
+.qtype{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.7rem}
+.qstem{font-size:1.18rem;line-height:1.5;margin-bottom:.3rem}
+.qstem .blank{display:inline-block;min-width:92px;border-bottom:2.5px dashed var(--accent);text-align:center;font-weight:700;color:var(--accent);padding:0 .35em;line-height:1.1}
+.qstem .blank:empty::after{content:"\00a0\00a0\00a0\00a0\00a0"}
+.qstem .blank.filled{border-bottom-style:solid;background:var(--accent-soft);border-radius:5px 5px 0 0}
+.qgloss{font-size:.88rem;color:var(--ink-soft);font-style:italic;margin-bottom:1.1rem}
+.opts{display:flex;flex-direction:column;gap:.6rem}
+.opt{text-align:left;width:100%;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:.85rem 1rem;font-size:1rem;display:flex;align-items:center;gap:.75rem;transition:border-color .12s,background .12s}
+.opt:hover:not([disabled]){border-color:var(--accent);background:var(--accent-soft)}
+.opt .key{width:26px;height:26px;border-radius:7px;background:var(--surface-2);display:grid;place-items:center;font-weight:700;font-size:.85rem;flex:none}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.correct{border-color:var(--good);background:var(--good-soft)}
+.opt.correct .key{background:var(--good);color:#fff}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt.wrong .key{background:var(--bad);color:#fff}
+.opt[disabled]{cursor:default}
+.mark{margin-left:auto;font-weight:700;font-size:.85rem}
+.opt.correct .mark{color:var(--good)} .opt.wrong .mark{color:var(--bad)}
+
+.analysis{margin-top:1.2rem;border-radius:14px;padding:1.1rem 1.2rem;animation:fade .3s ease}
+.analysis.ok{background:var(--good-soft);border:1px solid color-mix(in srgb,var(--good) 35%,transparent)}
+.analysis.no{background:var(--bad-soft);border:1px solid color-mix(in srgb,var(--bad) 35%,transparent)}
+.analysis .verdict{font-family:var(--serif);font-size:1.12rem;font-weight:600;display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}
+.analysis.ok .verdict{color:var(--good)} .analysis.no .verdict{color:var(--bad)}
+.analysis p{margin:.4rem 0;font-size:.93rem}
+.analysis .row{margin:.55rem 0;font-size:.92rem}
+.analysis .row b{color:var(--ink)}
+.analysis .why-wrong{background:color-mix(in srgb,var(--bad) 8%,transparent);border-radius:8px;padding:.5rem .7rem;font-size:.88rem;margin-top:.5rem}
+.analysis .tip{font-size:.88rem;color:var(--ink-soft);margin-top:.6rem;padding-top:.6rem;border-top:1px dashed var(--line)}
+.qfoot{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-top:1.4rem;flex-wrap:wrap}
+.locked-note{font-size:.84rem;color:var(--ink-soft);display:flex;align-items:center;gap:.4rem}
+
+/* ---- results ---- */
+.result{text-align:center;max-width:560px;margin:0 auto}
+.score-ring{width:170px;height:170px;margin:1rem auto 1.3rem;position:relative}
+.score-ring svg{transform:rotate(-90deg)}
+.score-ring .pct{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.score-ring .pct b{font-family:var(--serif);font-size:2.5rem;line-height:1;display:block}
+.score-ring .pct span{font-size:.78rem;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+.verdict-big{font-family:var(--serif);font-size:1.5rem;margin-bottom:.5rem}
+.result .sub{color:var(--ink-soft);margin-bottom:1.5rem}
+.breakdown{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:.4rem;margin:1.3rem 0;box-shadow:var(--shadow)}
+.brow{display:flex;align-items:center;gap:.8rem;padding:.7rem .8rem;border-radius:10px}
+.brow+.brow{border-top:1px solid var(--line)}
+.brow .n{font-weight:600;flex:1}
+.brow .sc{font-variant-numeric:tabular-nums;font-weight:700}
+.brow .pill{font-size:.72rem;font-weight:700;padding:.2em .6em;border-radius:999px}
+.pill.pass{background:var(--good-soft);color:var(--good)}
+.pill.fail{background:var(--bad-soft);color:var(--bad)}
+.actions{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap;margin-top:.5rem}
+.mini{font-size:.8rem;color:var(--ink-soft);margin-top:1.2rem}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:50}
+footer.ft{text-align:center;color:var(--ink-soft);font-size:.78rem;padding:2rem 0 1rem}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <button class="brand" id="brand"><span class="dot">V</span> IELTS Vocab Lab</button>
+    <button class="icon-btn" id="theme" title="Light / dark" aria-label="Toggle theme">◐</button>
+  </div>
+</header>
+
+<main class="wrap" id="app"></main>
+<footer class="ft wrap">360 từ &amp; collocations · 40 từ × 9 chủ đề · trình độ B2–C1 (IELTS 6.0–7.0) · nguồn: Collins Vocabulary for IELTS, Cambridge Collocations in Use, IELTS Fighter band 7.5</footer>
+
+<script>
+/* ============================ DATA ============================ */
+/* 6 topics × 10 items. Each: w(word) p(part) ipa, en(def) vi(gloss) eg(example, **target**) col(collocations) */
+const TOPICS = [
+{ id:"env", name:"Environment & Climate", tag:"Topic 1",
+  cards:[
+  {w:"endangered species",p:"noun phrase",ipa:"/ɪnˈdeɪndʒəd ˈspiːʃiːz/",en:"a type of animal or plant that is at serious risk of dying out completely",vi:"loài có nguy cơ tuyệt chủng",eg:"Conservationists are racing to protect **endangered species** before it is too late.",col:["protect endangered species","on the brink of extinction"]},
+  {w:"exhaust fumes",p:"noun",ipa:"/ɪɡˈzɔːst fjuːmz/",en:"the waste gases released by engines, especially in vehicles",vi:"khí thải (từ động cơ)",eg:"City centres are often thick with **exhaust fumes** during rush hour.",col:["give off exhaust fumes","reduce exhaust fumes"]},
+  {w:"fossil fuels",p:"noun",ipa:"/ˈfɒsl fjuːəlz/",en:"energy sources such as coal, oil and gas formed from ancient organic matter",vi:"nhiên liệu hóa thạch",eg:"Cutting our reliance on **fossil fuels** is central to any climate policy.",col:["burn fossil fuels","dependence on fossil fuels"]},
+  {w:"depletion",p:"noun",ipa:"/dɪˈpliːʃn/",en:"the reduction of something, especially a natural resource, to a dangerously low level",vi:"sự cạn kiệt",eg:"The rapid **depletion** of groundwater threatens farming across the region.",col:["resource depletion","ozone depletion"]},
+  {w:"to curb",p:"verb",ipa:"/kɜːb/",en:"to limit or control something that is harmful or growing too fast",vi:"kiềm chế, hạn chế",eg:"Governments have pledged to **curb** carbon emissions by 2035.",col:["curb emissions","curb pollution"]},
+  {w:"mitigate",p:"verb",ipa:"/ˈmɪtɪɡeɪt/",en:"to make the effects of something bad less severe",vi:"giảm nhẹ (tác động)",eg:"Planting trees can help **mitigate** the impact of flooding.",col:["mitigate the effects","mitigate risk"]},
+  {w:"sustainable",p:"adjective",ipa:"/səˈsteɪnəbl/",en:"able to continue over a long time without damaging the environment",vi:"bền vững",eg:"The company switched to **sustainable** packaging made from recycled paper.",col:["sustainable development","environmentally sustainable"]},
+  {w:"carbon footprint",p:"noun",ipa:"/ˈkɑːbən ˈfʊtprɪnt/",en:"the total amount of greenhouse gases an activity or person produces",vi:"lượng khí thải carbon (dấu chân carbon)",eg:"Cycling to work is a simple way to shrink your **carbon footprint**.",col:["reduce your carbon footprint","a huge carbon footprint"]},
+  {w:"conservation",p:"noun",ipa:"/ˌkɒnsəˈveɪʃn/",en:"the protection of the natural environment and its resources",vi:"sự bảo tồn",eg:"**Conservation** efforts have brought several bird populations back from the edge.",col:["wildlife conservation","conservation efforts"]},
+  {w:"to pose a threat",p:"phrase",ipa:"/pəʊz ə θret/",en:"to be a danger to someone or something",vi:"gây ra mối đe dọa",eg:"Rising sea levels **pose a threat** to low-lying coastal cities.",col:["pose a serious threat","pose a threat to"]},
+  {w:"renewable energy",p:"noun",ipa:"/rɪˈnjuːəbl ˈenədʒi/",en:"power from sources that never run out, such as sun, wind and water",vi:"năng lượng tái tạo",eg:"Many countries are investing heavily in **renewable energy** like solar and wind.",col:["switch to renewable energy","renewable energy sources"]},
+  {w:"emissions",p:"noun",ipa:"/ɪˈmɪʃnz/",en:"gases, especially carbon dioxide, released into the air",vi:"khí thải",eg:"The new law aims to cut factory **emissions** by half.",col:["cut emissions","greenhouse gas emissions"]},
+  {w:"deforestation",p:"noun",ipa:"/ˌdiːˌfɒrɪˈsteɪʃn/",en:"the clearing of forests on a large scale",vi:"nạn phá rừng",eg:"**Deforestation** destroys the habitats of countless species.",col:["widespread deforestation","tackle deforestation"]},
+  {w:"landfill",p:"noun",ipa:"/ˈlændfɪl/",en:"a place where large amounts of waste are buried in the ground",vi:"bãi chôn lấp rác",eg:"Most household rubbish still ends up in **landfill**.",col:["end up in landfill","a landfill site"]},
+  {w:"to recycle",p:"verb",ipa:"/ˌriːˈsaɪkl/",en:"to treat used materials so they can be used again",vi:"tái chế",eg:"Households are encouraged to **recycle** glass, paper and plastic.",col:["recycle waste","recycled materials"]},
+  {w:"biodegradable",p:"adjective",ipa:"/ˌbaɪəʊdɪˈɡreɪdəbl/",en:"able to decay naturally without harming the environment",vi:"có thể phân hủy sinh học",eg:"The company now wraps its products in **biodegradable** packaging.",col:["biodegradable packaging","fully biodegradable"]},
+  {w:"drought",p:"noun",ipa:"/draʊt/",en:"a long period with little or no rain",vi:"hạn hán",eg:"The region has suffered its worst **drought** in decades.",col:["a severe drought","a prolonged drought"]},
+  {w:"habitat",p:"noun",ipa:"/ˈhæbɪtæt/",en:"the natural home of an animal or plant",vi:"môi trường sống (của sinh vật)",eg:"Pollution is destroying the **habitat** of river fish.",col:["a natural habitat","destroy a habitat"]},
+  {w:"pollutant",p:"noun",ipa:"/pəˈluːtənt/",en:"a substance that makes air, water or soil dirty and harmful",vi:"chất gây ô nhiễm",eg:"Factories release harmful **pollutants** into the river.",col:["airborne pollutants","industrial pollutants"]},
+  {w:"to offset",p:"verb",ipa:"/ˌɒfˈset/",en:"to balance the effect of something by doing something else",vi:"bù đắp, cân bằng lại",eg:"Airlines let passengers pay to **offset** their carbon emissions.",col:["offset emissions","carbon offsetting"]},
+  {w:"scarce",p:"adjective",ipa:"/skeəs/",en:"not easy to find or get; in short supply",vi:"khan hiếm",eg:"Clean water is becoming **scarce** in many parts of the world.",col:["scarce resources","increasingly scarce"]},
+  {w:"to dispose of",p:"phrasal verb",ipa:"/dɪˈspəʊz ɒv/",en:"to get rid of something, especially waste",vi:"vứt bỏ, xử lý (rác)",eg:"Hospitals must **dispose of** chemical waste safely.",col:["dispose of waste","safe disposal"]},
+  {w:"toxic",p:"adjective",ipa:"/ˈtɒksɪk/",en:"poisonous and harmful to living things",vi:"độc hại",eg:"The factory was dumping **toxic** chemicals into the sea.",col:["toxic waste","toxic chemicals"]},
+  {w:"to raise awareness",p:"phrase",ipa:"/reɪz əˈweənəs/",en:"to make more people know about an issue",vi:"nâng cao nhận thức",eg:"The campaign aims to **raise awareness** of plastic pollution.",col:["raise awareness of","public awareness"]},
+  {w:"ecosystem",p:"noun",ipa:"/ˈiːkəʊsɪstəm/",en:"all the living things in an area and the way they affect each other",vi:"hệ sinh thái",eg:"Coral reefs support an incredibly rich **ecosystem**.",col:["a fragile ecosystem","disrupt an ecosystem"]},
+  {w:"overfishing",p:"noun",ipa:"/ˌəʊvəˈfɪʃɪŋ/",en:"catching so many fish that stocks fall dangerously low",vi:"đánh bắt cá quá mức",eg:"**Overfishing** has pushed several species close to collapse.",col:["the effects of overfishing","reduce overfishing"]},
+  {w:"to conserve",p:"verb",ipa:"/kənˈsɜːv/",en:"to protect something and use it carefully so it is not wasted",vi:"bảo tồn, tiết kiệm",eg:"Simple habits can help us **conserve** water at home.",col:["conserve energy","conserve resources"]},
+  {w:"greenhouse gas",p:"noun",ipa:"/ˈɡriːnhaʊs ɡæs/",en:"a gas such as carbon dioxide that traps heat in the atmosphere",vi:"khí nhà kính",eg:"Methane is a particularly powerful **greenhouse gas**.",col:["greenhouse gas emissions","cut greenhouse gases"]},
+  {w:"detrimental",p:"adjective",ipa:"/ˌdetrɪˈmentl/",en:"harmful; causing damage",vi:"có hại, gây tổn hại",eg:"Plastic waste has a **detrimental** effect on marine life.",col:["detrimental to health","a detrimental impact"]},
+  {w:"to phase out",p:"phrasal verb",ipa:"/feɪz aʊt/",en:"to stop using something gradually over time",vi:"loại bỏ dần",eg:"The government plans to **phase out** petrol cars by 2035.",col:["phase out fossil fuels","gradually phase out"]},
+  {w:"contamination",p:"noun",ipa:"/kənˌtæmɪˈneɪʃn/",en:"the process of making something dirty or poisonous",vi:"sự nhiễm bẩn, ô nhiễm",eg:"Chemical **contamination** has made the water unsafe to drink.",col:["water contamination","soil contamination"]},
+  {w:"extinction",p:"noun",ipa:"/ɪkˈstɪŋkʃn/",en:"the state of a species no longer existing",vi:"sự tuyệt chủng",eg:"Overhunting drove the species to **extinction**.",col:["face extinction","on the verge of extinction"]},
+  {w:"to preserve",p:"verb",ipa:"/prɪˈzɜːv/",en:"to keep something in its original state and protect it",vi:"bảo tồn, gìn giữ",eg:"We must **preserve** the rainforest for future generations.",col:["preserve nature","preserve wildlife"]},
+  {w:"waste",p:"noun",ipa:"/weɪst/",en:"unwanted material that is thrown away",vi:"rác thải",eg:"The city produces tonnes of **waste** every single day.",col:["household waste","reduce waste"]},
+  {w:"flooding",p:"noun",ipa:"/ˈflʌdɪŋ/",en:"an overflow of water onto land that is normally dry",vi:"ngập lụt",eg:"Days of heavy rain caused severe **flooding**.",col:["cause flooding","flash flooding"]},
+  {w:"to pollute",p:"verb",ipa:"/pəˈluːt/",en:"to make air, water or land dirty and harmful",vi:"làm ô nhiễm",eg:"Factories **pollute** the river with chemicals.",col:["pollute the air","heavily polluted"]},
+  {w:"erosion",p:"noun",ipa:"/ɪˈrəʊʒn/",en:"the gradual wearing away of land by wind or water",vi:"sự xói mòn",eg:"Deforestation leads to serious soil **erosion**.",col:["soil erosion","coastal erosion"]},
+  {w:"green",p:"adjective",ipa:"/ɡriːn/",en:"relating to or concerned with protecting the environment",vi:"thân thiện với môi trường",eg:"The company promotes **green** energy and recycling.",col:["green energy","go green"]},
+  {w:"to reduce",p:"verb",ipa:"/rɪˈdjuːs/",en:"to make something smaller in amount, size or degree",vi:"giảm thiểu",eg:"We should all try to **reduce** our use of plastic.",col:["reduce waste","reduce consumption"]},
+  {w:"to restore",p:"verb",ipa:"/rɪˈstɔː/",en:"to bring something back to its former good condition",vi:"khôi phục, phục hồi",eg:"Efforts are underway to **restore** the damaged wetlands.",col:["restore habitats","restore balance"]},
+  ]},
+{ id:"work", name:"Work & Careers", tag:"Topic 2",
+  cards:[
+  {w:"recruitment",p:"noun",ipa:"/rɪˈkruːtmənt/",en:"the process of finding and hiring new people to work for an organisation",vi:"sự tuyển dụng",eg:"The firm has streamlined its **recruitment** process to hire faster.",col:["recruitment process","graduate recruitment"]},
+  {w:"to pursue a career",p:"phrase",ipa:"/pəˈsjuː ə kəˈrɪə/",en:"to work towards a particular profession over time",vi:"theo đuổi sự nghiệp",eg:"She left teaching to **pursue a career** in software design.",col:["pursue a career in","a rewarding career"]},
+  {w:"demanding",p:"adjective",ipa:"/dɪˈmɑːndɪŋ/",en:"needing a lot of time, effort, skill or attention",vi:"đòi hỏi cao, vất vả",eg:"Nursing is a **demanding** job, both physically and emotionally.",col:["a demanding role","intellectually demanding"]},
+  {w:"to climb the ladder",p:"idiom",ipa:"/klaɪm ðə ˈlædə/",en:"to gradually rise to more senior and better-paid positions",vi:"thăng tiến trong sự nghiệp",eg:"He worked weekends for years to **climb the ladder** at the bank.",col:["climb the corporate ladder","the career ladder"]},
+  {w:"redundant",p:"adjective",ipa:"/rɪˈdʌndənt/",en:"no longer employed because the job is no longer needed",vi:"bị dư thừa, bị cho thôi việc",eg:"Three hundred staff were made **redundant** when the plant closed.",col:["made redundant","redundancy pay"]},
+  {w:"work–life balance",p:"noun",ipa:"/wɜːk laɪf ˈbæləns/",en:"the healthy division of time between your job and your personal life",vi:"cân bằng công việc – cuộc sống",eg:"Remote work has improved the **work–life balance** of many employees.",col:["a healthy work–life balance","maintain work–life balance"]},
+  {w:"to take on",p:"phrasal verb",ipa:"/teɪk ɒn/",en:"to accept a task or responsibility; to hire someone",vi:"đảm nhận; tuyển thêm",eg:"The team **took on** two interns to cope with the extra workload.",col:["take on responsibility","take on new staff"]},
+  {w:"expertise",p:"noun",ipa:"/ˌekspɜːˈtiːz/",en:"deep skill or knowledge in a particular field",vi:"chuyên môn, sự tinh thông",eg:"We hired her for her **expertise** in data security.",col:["technical expertise","draw on expertise"]},
+  {w:"to be snowed under",p:"idiom",ipa:"/snəʊd ˈʌndə/",en:"to have far more work than you can easily handle",vi:"ngập đầu trong công việc",eg:"I can't meet today — I'm completely **snowed under** with reports.",col:["snowed under with work"]},
+  {w:"incentive",p:"noun",ipa:"/ɪnˈsentɪv/",en:"something that encourages a person to work harder or do something",vi:"động lực, sự khích lệ",eg:"Bonuses act as a strong **incentive** to hit sales targets.",col:["financial incentive","offer an incentive"]},
+  {w:"CV (résumé)",p:"noun",ipa:"/ˌsiːˈviː/",en:"a document listing your education and work experience for job applications",vi:"sơ yếu lý lịch",eg:"Tailor your **CV** to each job you apply for.",col:["update your CV","a strong CV"]},
+  {w:"to apply for",p:"phrasal verb",ipa:"/əˈplaɪ fɔː/",en:"to formally ask for a job, usually in writing",vi:"nộp đơn xin (việc)",eg:"She **applied for** three positions last week.",col:["apply for a job","apply for a post"]},
+  {w:"promotion",p:"noun",ipa:"/prəˈməʊʃn/",en:"a move to a more senior, better-paid job",vi:"sự thăng chức",eg:"He was given a **promotion** after only a year.",col:["earn a promotion","a well-deserved promotion"]},
+  {w:"workload",p:"noun",ipa:"/ˈwɜːkləʊd/",en:"the amount of work a person has to do",vi:"khối lượng công việc",eg:"My **workload** has doubled since the merger.",col:["a heavy workload","manage your workload"]},
+  {w:"colleague",p:"noun",ipa:"/ˈkɒliːɡ/",en:"a person you work with",vi:"đồng nghiệp",eg:"I get on well with my **colleagues**.",col:["a close colleague","a former colleague"]},
+  {w:"to meet a deadline",p:"phrase",ipa:"/miːt ə ˈdedlaɪn/",en:"to finish work by the required time",vi:"kịp thời hạn",eg:"We stayed late to **meet the deadline**.",col:["meet a tight deadline","miss a deadline"]},
+  {w:"self-employed",p:"adjective",ipa:"/ˌself ɪmˈplɔɪd/",en:"working for yourself rather than for an employer",vi:"tự kinh doanh, làm tự do",eg:"Since going **self-employed**, she sets her own hours.",col:["become self-employed","self-employed workers"]},
+  {w:"a steep learning curve",p:"idiom",ipa:"/stiːp ˈlɜːnɪŋ kɜːv/",en:"a situation where you have to learn a great deal very quickly",vi:"quá trình học hỏi vất vả, dốc",eg:"The first month in the role was a **steep learning curve**.",col:["face a steep learning curve"]},
+  {w:"motivated",p:"adjective",ipa:"/ˈməʊtɪveɪtɪd/",en:"eager and willing to work hard",vi:"có động lực",eg:"Employers look for **motivated** team players.",col:["highly motivated","self-motivated"]},
+  {w:"perk",p:"noun",ipa:"/pɜːk/",en:"an extra benefit given with a job",vi:"phúc lợi, đãi ngộ thêm",eg:"Free gym membership is one of the **perks** of the job.",col:["perks of the job","generous perks"]},
+  {w:"to be laid off",p:"phrase",ipa:"/leɪd ɒf/",en:"to lose your job because there is not enough work",vi:"bị cho nghỉ việc (do cắt giảm)",eg:"Hundreds were **laid off** when demand fell.",col:["be laid off","lay off staff"]},
+  {w:"shift",p:"noun",ipa:"/ʃɪft/",en:"a set period of working time",vi:"ca làm việc",eg:"Nurses often have to work a night **shift**.",col:["work a shift","shift work"]},
+  {w:"qualifications",p:"noun",ipa:"/ˌkwɒlɪfɪˈkeɪʃnz/",en:"official records of training or exams you have passed",vi:"bằng cấp, chứng chỉ",eg:"The role requires formal teaching **qualifications**.",col:["relevant qualifications","gain qualifications"]},
+  {w:"to juggle",p:"verb",ipa:"/ˈdʒʌɡl/",en:"to manage several tasks or responsibilities at the same time",vi:"xoay xở nhiều việc cùng lúc",eg:"She **juggles** a full-time job and two children.",col:["juggle responsibilities","juggle work and family"]},
+  {w:"rewarding",p:"adjective",ipa:"/rɪˈwɔːdɪŋ/",en:"giving a satisfying sense of worth, even if not money",vi:"đáng giá, mãn nguyện",eg:"Teaching is demanding but deeply **rewarding**.",col:["a rewarding career","emotionally rewarding"]},
+  {w:"to delegate",p:"verb",ipa:"/ˈdelɪɡeɪt/",en:"to give part of your work or power to someone else",vi:"giao việc, phân công",eg:"Good managers **delegate** tasks instead of doing everything.",col:["delegate tasks","delegate responsibility"]},
+  {w:"prospects",p:"noun",ipa:"/ˈprɒspekts/",en:"chances of future success or promotion",vi:"triển vọng (nghề nghiệp)",eg:"The job offers excellent career **prospects**.",col:["career prospects","good prospects"]},
+  {w:"burnout",p:"noun",ipa:"/ˈbɜːnaʊt/",en:"extreme tiredness caused by working too hard for too long",vi:"kiệt sức (do làm việc)",eg:"Long hours led to complete **burnout**.",col:["suffer burnout","avoid burnout"]},
+  {w:"to stand out",p:"phrasal verb",ipa:"/stænd aʊt/",en:"to be clearly better or more noticeable than others",vi:"nổi bật",eg:"Volunteering helps your application **stand out**.",col:["stand out from the crowd","really stand out"]},
+  {w:"salary",p:"noun",ipa:"/ˈsæləri/",en:"a fixed amount of money paid regularly for a job",vi:"lương (tháng/năm)",eg:"They offered a competitive **salary** and benefits.",col:["a competitive salary","an annual salary"]},
+  {w:"candidate",p:"noun",ipa:"/ˈkændɪdət/",en:"a person who applies for a job or position",vi:"ứng viên",eg:"They interviewed five **candidates** for the post.",col:["a strong candidate","the ideal candidate"]},
+  {w:"to resign",p:"verb",ipa:"/rɪˈzaɪn/",en:"to officially leave a job or position",vi:"từ chức, xin nghỉ việc",eg:"She **resigned** after a dispute with management.",col:["resign from a job","resign in protest"]},
+  {w:"workforce",p:"noun",ipa:"/ˈwɜːkfɔːs/",en:"all the people who work in a company or country",vi:"lực lượng lao động",eg:"Half the **workforce** now works remotely.",col:["a skilled workforce","the entire workforce"]},
+  {w:"teamwork",p:"noun",ipa:"/ˈtiːmwɜːk/",en:"the combined, cooperative effort of a group",vi:"làm việc nhóm",eg:"Good **teamwork** is vital in a busy kitchen.",col:["effective teamwork","rely on teamwork"]},
+  {w:"to supervise",p:"verb",ipa:"/ˈsuːpəvaɪz/",en:"to watch over and direct work or people",vi:"giám sát",eg:"She **supervises** a team of ten engineers.",col:["supervise staff","closely supervise"]},
+  {w:"overtime",p:"noun",ipa:"/ˈəʊvətaɪm/",en:"time worked beyond your normal working hours",vi:"giờ làm thêm",eg:"He earns extra money by working **overtime**.",col:["work overtime","paid overtime"]},
+  {w:"a vacancy",p:"noun",ipa:"/ˈveɪkənsi/",en:"a job that is available for someone to take",vi:"vị trí tuyển dụng còn trống",eg:"The firm advertised three **vacancies** online.",col:["fill a vacancy","a job vacancy"]},
+  {w:"competent",p:"adjective",ipa:"/ˈkɒmpɪtənt/",en:"having enough skill or ability to do something well",vi:"có năng lực",eg:"She is a highly **competent** project manager.",col:["a competent worker","technically competent"]},
+  {w:"to earn a living",p:"phrase",ipa:"/ɜːn ə ˈlɪvɪŋ/",en:"to make the money you need in order to live",vi:"kiếm sống",eg:"He **earns a living** as a freelance photographer.",col:["earn a decent living"]},
+  {w:"flexible",p:"adjective",ipa:"/ˈfleksəbl/",en:"able to change easily to suit different conditions",vi:"linh hoạt",eg:"Many staff prefer **flexible** working hours.",col:["flexible hours","a flexible schedule"]},
+  ]},
+{ id:"tech", name:"Technology & Media", tag:"Topic 3",
+  cards:[
+  {w:"cutting-edge",p:"adjective",ipa:"/ˌkʌtɪŋ ˈedʒ/",en:"extremely modern and advanced; at the forefront of development",vi:"tối tân, tiên tiến nhất",eg:"The lab is equipped with **cutting-edge** medical scanners.",col:["cutting-edge technology","cutting-edge research"]},
+  {w:"to keep up with",p:"phrasal verb",ipa:"/kiːp ʌp wɪð/",en:"to stay informed about or at the same level as rapid change",vi:"theo kịp, bắt kịp",eg:"It's hard to **keep up with** the pace of technological change.",col:["keep up with the trends","keep up with the times"]},
+  {w:"user-friendly",p:"adjective",ipa:"/ˌjuːzə ˈfrendli/",en:"easy and pleasant for ordinary people to use",vi:"dễ sử dụng",eg:"The app became popular because the interface is so **user-friendly**.",col:["a user-friendly design","user-friendly interface"]},
+  {w:"to roll out",p:"phrasal verb",ipa:"/rəʊl aʊt/",en:"to introduce a new product or service gradually and widely",vi:"triển khai, tung ra",eg:"The network plans to **roll out** 5G coverage to rural areas next year.",col:["roll out a new feature","a nationwide roll-out"]},
+  {w:"addictive",p:"adjective",ipa:"/əˈdɪktɪv/",en:"causing a strong, often harmful, need to keep doing something",vi:"gây nghiện",eg:"Social media is designed to be **addictive**, pulling users back repeatedly.",col:["highly addictive","addictive by design"]},
+  {w:"to automate",p:"verb",ipa:"/ˈɔːtəmeɪt/",en:"to make a process work by machines or computers instead of people",vi:"tự động hóa",eg:"Factories increasingly **automate** repetitive tasks to cut costs.",col:["automate a process","fully automated"]},
+  {w:"breakthrough",p:"noun",ipa:"/ˈbreɪkθruː/",en:"an important and sudden development or discovery",vi:"bước đột phá",eg:"The vaccine was hailed as a major scientific **breakthrough**.",col:["a major breakthrough","a breakthrough in"]},
+  {w:"to be glued to",p:"idiom",ipa:"/ɡluːd tuː/",en:"to give something your complete, continuous attention (often a screen)",vi:"dán mắt vào",eg:"The children were **glued to** their tablets all afternoon.",col:["glued to the screen"]},
+  {w:"reliable",p:"adjective",ipa:"/rɪˈlaɪəbl/",en:"able to be trusted to work well or give accurate results",vi:"đáng tin cậy",eg:"Users want a device that is fast, affordable and **reliable**.",col:["a reliable source","highly reliable"]},
+  {w:"to revolutionise",p:"verb",ipa:"/ˌrevəˈluːʃənaɪz/",en:"to change something completely and for the better",vi:"cách mạng hóa",eg:"Smartphones have **revolutionised** the way we communicate.",col:["revolutionise the industry","completely revolutionise"]},
+  {w:"artificial intelligence",p:"noun",ipa:"/ˌɑːtɪˈfɪʃl ɪnˈtelɪdʒəns/",en:"computer systems able to perform tasks that normally need human thinking",vi:"trí tuệ nhân tạo",eg:"**Artificial intelligence** is transforming healthcare and finance.",col:["advances in artificial intelligence","AI-powered tools"]},
+  {w:"device",p:"noun",ipa:"/dɪˈvaɪs/",en:"a piece of equipment made for a particular purpose, such as a phone",vi:"thiết bị",eg:"People check their **devices** dozens of times a day.",col:["a handheld device","mobile devices"]},
+  {w:"to browse",p:"verb",ipa:"/braʊz/",en:"to look through websites or information in a relaxed way",vi:"lướt web, duyệt",eg:"I **browse** the news on my phone each morning.",col:["browse the internet","browse online"]},
+  {w:"innovation",p:"noun",ipa:"/ˌɪnəˈveɪʃn/",en:"a new idea, method or product",vi:"sự đổi mới, cải tiến",eg:"The firm is known for constant **innovation**.",col:["technological innovation","drive innovation"]},
+  {w:"screen time",p:"noun",ipa:"/ˈskriːn taɪm/",en:"the amount of time spent looking at a screen",vi:"thời gian dùng màn hình",eg:"Parents worry about their children's **screen time**.",col:["limit screen time","excessive screen time"]},
+  {w:"obsolete",p:"adjective",ipa:"/ˈɒbsəliːt/",en:"no longer used because something newer has replaced it",vi:"lỗi thời, lạc hậu",eg:"Smartphones have made many older gadgets **obsolete**.",col:["become obsolete","technically obsolete"]},
+  {w:"data",p:"noun",ipa:"/ˈdeɪtə/",en:"information, especially facts collected and stored by computers",vi:"dữ liệu",eg:"Companies collect huge amounts of personal **data**.",col:["store data","data privacy"]},
+  {w:"to upgrade",p:"verb",ipa:"/ˌʌpˈɡreɪd/",en:"to replace something with a newer, better version",vi:"nâng cấp",eg:"I need to **upgrade** my laptop's memory.",col:["upgrade a system","a free upgrade"]},
+  {w:"convenient",p:"adjective",ipa:"/kənˈviːniənt/",en:"easy and useful; saving you time and effort",vi:"tiện lợi",eg:"Online banking is incredibly **convenient**.",col:["quick and convenient","a convenient option"]},
+  {w:"gadget",p:"noun",ipa:"/ˈɡædʒɪt/",en:"a small, clever electronic tool or machine",vi:"thiết bị nhỏ, đồ công nghệ",eg:"He loves buying the latest **gadgets**.",col:["the latest gadgets","a handy gadget"]},
+  {w:"to crash",p:"verb",ipa:"/kræʃ/",en:"(of a computer or program) to stop working suddenly",vi:"bị treo, sập (máy/phần mềm)",eg:"My laptop **crashed** before I could save the file.",col:["the system crashed","the app keeps crashing"]},
+  {w:"cyberbullying",p:"noun",ipa:"/ˈsaɪbəˌbʊliɪŋ/",en:"the act of bullying someone using the internet",vi:"bắt nạt trên mạng",eg:"Schools are working hard to tackle **cyberbullying**.",col:["a victim of cyberbullying","tackle cyberbullying"]},
+  {w:"streaming",p:"noun",ipa:"/ˈstriːmɪŋ/",en:"watching or listening to media over the internet in real time",vi:"phát trực tuyến",eg:"**Streaming** has largely replaced DVDs.",col:["a streaming service","music streaming"]},
+  {w:"to go viral",p:"phrase",ipa:"/ɡəʊ ˈvaɪrəl/",en:"to spread very quickly to many people online",vi:"lan truyền chóng mặt",eg:"The short clip **went viral** overnight.",col:["go viral online","a viral video"]},
+  {w:"digital",p:"adjective",ipa:"/ˈdɪdʒɪtl/",en:"using computer technology, especially the internet",vi:"kỹ thuật số",eg:"We now live in a **digital** age.",col:["digital technology","the digital world"]},
+  {w:"to hack",p:"verb",ipa:"/hæk/",en:"to break into a computer system illegally",vi:"tấn công, xâm nhập (máy tính)",eg:"Criminals **hacked** into the bank's database.",col:["hack an account","get hacked"]},
+  {w:"password",p:"noun",ipa:"/ˈpɑːswɜːd/",en:"a secret word or phrase that lets you access an account",vi:"mật khẩu",eg:"Always use a strong, unique **password**.",col:["a strong password","reset your password"]},
+  {w:"seamless",p:"adjective",ipa:"/ˈsiːmləs/",en:"smooth and continuous, with no awkward gaps or problems",vi:"liền mạch, mượt mà",eg:"The app offers a **seamless** user experience.",col:["a seamless experience","seamless integration"]},
+  {w:"to multitask",p:"verb",ipa:"/ˌmʌltiˈtɑːsk/",en:"to do several things at the same time",vi:"làm nhiều việc cùng lúc",eg:"Phones let us **multitask**, but they can harm focus.",col:["the ability to multitask"]},
+  {w:"subscription",p:"noun",ipa:"/səbˈskrɪpʃn/",en:"a payment made to use a service regularly",vi:"gói đăng ký (thuê bao)",eg:"I pay a monthly **subscription** for the app.",col:["a monthly subscription","cancel a subscription"]},
+  {w:"app",p:"noun",ipa:"/æp/",en:"a program designed to run on a phone or computer",vi:"ứng dụng",eg:"There's an **app** for almost everything these days.",col:["download an app","a mobile app"]},
+  {w:"to download",p:"verb",ipa:"/ˌdaʊnˈləʊd/",en:"to copy data from the internet onto a device",vi:"tải xuống",eg:"You can **download** the file for free.",col:["download an app","download content"]},
+  {w:"network",p:"noun",ipa:"/ˈnetwɜːk/",en:"a group of connected computers, systems or people",vi:"mạng lưới",eg:"The company's **network** went down for hours.",col:["a social network","a computer network"]},
+  {w:"to malfunction",p:"verb",ipa:"/ˌmælˈfʌŋkʃn/",en:"to fail to work in the correct way",vi:"trục trặc, hỏng hóc",eg:"The sensor began to **malfunction** without warning.",col:["the system malfunctioned"]},
+  {w:"privacy",p:"noun",ipa:"/ˈprɪvəsi/",en:"the state of keeping your personal information secret",vi:"quyền riêng tư",eg:"Users increasingly worry about online **privacy**.",col:["data privacy","protect your privacy"]},
+  {w:"to replace",p:"verb",ipa:"/rɪˈpleɪs/",en:"to take the place of something or someone else",vi:"thay thế",eg:"Robots may **replace** many factory workers.",col:["replace workers","replace with"]},
+  {w:"efficient",p:"adjective",ipa:"/ɪˈfɪʃnt/",en:"working well without wasting time, money or energy",vi:"hiệu quả",eg:"The new system is far more **efficient** than the old one.",col:["energy-efficient","highly efficient"]},
+  {w:"a glitch",p:"noun",ipa:"/ɡlɪtʃ/",en:"a small, sudden fault in a system or machine",vi:"lỗi nhỏ, trục trặc",eg:"A software **glitch** delayed the launch.",col:["a technical glitch","a minor glitch"]},
+  {w:"to connect",p:"verb",ipa:"/kəˈnekt/",en:"to join to a network or to link with other people",vi:"kết nối",eg:"The app lets you **connect** with friends worldwide.",col:["connect to the internet","stay connected"]},
+  {w:"wireless",p:"adjective",ipa:"/ˈwaɪələs/",en:"working without the need for connecting wires",vi:"không dây",eg:"Most homes now rely on **wireless** internet.",col:["a wireless network","wireless devices"]},
+  ]},
+{ id:"edu", name:"Education", tag:"Topic 4",
+  cards:[
+  {w:"to broaden your horizons",p:"idiom",ipa:"/ˈbrɔːdn jɔː həˈraɪznz/",en:"to increase the range of your knowledge, interests or experience",vi:"mở mang tầm hiểu biết",eg:"Studying abroad really **broadened my horizons**.",col:["broaden your horizons","a horizon-broadening trip"]},
+  {w:"curriculum",p:"noun",ipa:"/kəˈrɪkjələm/",en:"the subjects included in a course of study at a school or college",vi:"chương trình giảng dạy",eg:"Coding has been added to the national **curriculum**.",col:["the school curriculum","a packed curriculum"]},
+  {w:"to grasp",p:"verb",ipa:"/ɡrɑːsp/",en:"to understand something, especially something difficult",vi:"nắm bắt, hiểu được",eg:"It took me a while to **grasp** the basic concept.",col:["grasp a concept","fully grasp"]},
+  {w:"rote learning",p:"noun",ipa:"/rəʊt ˈlɜːnɪŋ/",en:"learning by repeating things rather than by understanding them",vi:"học vẹt, học thuộc lòng",eg:"Critics argue that **rote learning** stifles creativity.",col:["rely on rote learning"]},
+  {w:"tuition fees",p:"noun",ipa:"/tjuˈɪʃn fiːz/",en:"the money charged for teaching, especially at a university",vi:"học phí",eg:"Rising **tuition fees** put many students into debt.",col:["pay tuition fees","soaring tuition fees"]},
+  {w:"to drop out",p:"phrasal verb",ipa:"/drɒp aʊt/",en:"to leave a course or school before finishing it",vi:"bỏ học giữa chừng",eg:"He **dropped out** of university to launch his own startup.",col:["drop out of school","a high drop-out rate"]},
+  {w:"well-rounded",p:"adjective",ipa:"/ˌwel ˈraʊndɪd/",en:"having a wide range of skills, knowledge and experience",vi:"toàn diện",eg:"The school aims to produce **well-rounded** individuals, not just exam passers.",col:["a well-rounded education","a well-rounded person"]},
+  {w:"to instil",p:"verb",ipa:"/ɪnˈstɪl/",en:"to gradually put an idea, feeling or value into someone's mind",vi:"thấm nhuần, gieo (giá trị)",eg:"Good teachers **instil** a love of reading in their pupils.",col:["instil values","instil confidence"]},
+  {w:"compulsory",p:"adjective",ipa:"/kəmˈpʌlsəri/",en:"required by rules or law; that must be done",vi:"bắt buộc",eg:"Education is **compulsory** for all children up to the age of sixteen.",col:["compulsory education","compulsory subject"]},
+  {w:"hands-on",p:"adjective",ipa:"/ˌhændz ˈɒn/",en:"involving active, practical participation rather than just theory",vi:"thực hành trực tiếp",eg:"Apprenticeships give students valuable **hands-on** experience.",col:["hands-on experience","a hands-on approach"]},
+  {w:"scholarship",p:"noun",ipa:"/ˈskɒləʃɪp/",en:"money given to a student to help pay for their studies",vi:"học bổng",eg:"She won a **scholarship** to study abroad.",col:["win a scholarship","a full scholarship"]},
+  {w:"undergraduate",p:"noun",ipa:"/ˌʌndəˈɡrædʒuət/",en:"a student studying for their first university degree",vi:"sinh viên đại học (chưa tốt nghiệp)",eg:"As an **undergraduate**, he majored in history.",col:["an undergraduate degree","undergraduate students"]},
+  {w:"to enrol",p:"verb",ipa:"/ɪnˈrəʊl/",en:"to officially join a course or school",vi:"ghi danh, nhập học",eg:"Thousands **enrol** on online courses each year.",col:["enrol on a course","enrol at a university"]},
+  {w:"lecture",p:"noun",ipa:"/ˈlektʃə/",en:"a formal talk given to teach a large group of students",vi:"bài giảng",eg:"The professor gave a fascinating **lecture**.",col:["attend a lecture","a guest lecture"]},
+  {w:"academic",p:"adjective",ipa:"/ˌækəˈdemɪk/",en:"relating to study and education, especially at a higher level",vi:"thuộc về học thuật",eg:"He has a strong **academic** record.",col:["academic achievement","academic performance"]},
+  {w:"to revise",p:"verb",ipa:"/rɪˈvaɪz/",en:"to study material again in preparation for an exam",vi:"ôn tập (thi)",eg:"I need to **revise** for my final exams.",col:["revise for an exam","revise thoroughly"]},
+  {w:"assignment",p:"noun",ipa:"/əˈsaɪnmənt/",en:"a task or piece of work given to students",vi:"bài tập được giao",eg:"The **assignment** is due on Friday.",col:["hand in an assignment","a written assignment"]},
+  {w:"to fall behind",p:"phrasal verb",ipa:"/fɔːl bɪˈhaɪnd/",en:"to make less progress than other people",vi:"bị tụt lại phía sau",eg:"He **fell behind** after missing several classes.",col:["fall behind in class","fall behind with work"]},
+  {w:"distance learning",p:"noun",ipa:"/ˈdɪstəns ˈlɜːnɪŋ/",en:"studying from home rather than attending a school in person",vi:"học từ xa",eg:"**Distance learning** suits busy working adults.",col:["a distance-learning course"]},
+  {w:"to excel",p:"verb",ipa:"/ɪkˈsel/",en:"to be extremely good at something",vi:"xuất sắc, vượt trội",eg:"She **excels** at mathematics.",col:["excel at something","excel academically"]},
+  {w:"literacy",p:"noun",ipa:"/ˈlɪtərəsi/",en:"the ability to read and write",vi:"khả năng đọc viết",eg:"Improving **literacy** is a national priority.",col:["literacy rates","adult literacy"]},
+  {w:"mature student",p:"noun",ipa:"/məˈtjʊə ˈstjuːdnt/",en:"an older student, usually over 21, returning to study",vi:"sinh viên lớn tuổi (học muộn)",eg:"As a **mature student**, he brought real-world experience to class.",col:["a mature student"]},
+  {w:"to graduate",p:"verb",ipa:"/ˈɡrædʒueɪt/",en:"to complete a university degree successfully",vi:"tốt nghiệp",eg:"She **graduated** with first-class honours.",col:["graduate from university","recently graduated"]},
+  {w:"intensive",p:"adjective",ipa:"/ɪnˈtensɪv/",en:"involving a lot of work or study in a short time",vi:"chuyên sâu, cấp tốc",eg:"He took an **intensive** language course over the summer.",col:["an intensive course","intensive training"]},
+  {w:"peer pressure",p:"noun",ipa:"/pɪə ˈpreʃə/",en:"the influence from people of your own age to act like them",vi:"áp lực đồng trang lứa",eg:"**Peer pressure** can strongly affect study habits.",col:["under peer pressure","resist peer pressure"]},
+  {w:"to foster",p:"verb",ipa:"/ˈfɒstə/",en:"to encourage the development of a skill or quality",vi:"nuôi dưỡng, thúc đẩy",eg:"Group projects **foster** teamwork and communication.",col:["foster creativity","foster independence"]},
+  {w:"discipline",p:"noun",ipa:"/ˈdɪsəplɪn/",en:"controlled, orderly behaviour and self-control",vi:"tính kỷ luật",eg:"Studying alone requires a lot of **discipline**.",col:["self-discipline","strict discipline"]},
+  {w:"extracurricular",p:"adjective",ipa:"/ˌekstrəkəˈrɪkjələ/",en:"describing activities done outside the normal lessons",vi:"ngoại khóa",eg:"Universities value **extracurricular** activities.",col:["extracurricular activities"]},
+  {w:"to retain",p:"verb",ipa:"/rɪˈteɪn/",en:"to keep information in your memory",vi:"ghi nhớ, lưu giữ",eg:"We **retain** information better by testing ourselves.",col:["retain information","retain knowledge"]},
+  {w:"vocational",p:"adjective",ipa:"/vəʊˈkeɪʃənl/",en:"relating to training for a particular job or trade",vi:"thuộc về dạy nghề",eg:"**Vocational** courses teach practical job skills.",col:["vocational training","a vocational qualification"]},
+  {w:"to memorise",p:"verb",ipa:"/ˈmeməraɪz/",en:"to learn something so that you can remember it exactly",vi:"ghi nhớ, học thuộc",eg:"Students had to **memorise** long lists of dates.",col:["memorise facts","memorise vocabulary"]},
+  {w:"tutor",p:"noun",ipa:"/ˈtjuːtə/",en:"a teacher who gives private or small-group lessons",vi:"gia sư, người hướng dẫn",eg:"She hired a **tutor** to help with maths.",col:["a private tutor","a personal tutor"]},
+  {w:"degree",p:"noun",ipa:"/dɪˈɡriː/",en:"a qualification awarded by a university",vi:"bằng (đại học)",eg:"He earned a **degree** in economics.",col:["a university degree","a master's degree"]},
+  {w:"to sit an exam",p:"phrase",ipa:"/sɪt ən ɪɡˈzæm/",en:"to take an examination",vi:"dự thi, làm bài thi",eg:"They **sit their exams** in June.",col:["sit a final exam"]},
+  {w:"knowledge",p:"noun",ipa:"/ˈnɒlɪdʒ/",en:"information and understanding gained through learning",vi:"kiến thức",eg:"Reading widely builds your general **knowledge**.",col:["gain knowledge","in-depth knowledge"]},
+  {w:"to cram",p:"verb",ipa:"/kræm/",en:"to study intensively just before an exam",vi:"học nhồi nhét (sát ngày thi)",eg:"He stayed up late **cramming** for the test.",col:["cram for an exam"]},
+  {w:"feedback",p:"noun",ipa:"/ˈfiːdbæk/",en:"comments about how well you have done something",vi:"phản hồi, nhận xét",eg:"The teacher gave detailed **feedback** on my essay.",col:["give feedback","constructive feedback"]},
+  {w:"bilingual",p:"adjective",ipa:"/baɪˈlɪŋɡwəl/",en:"able to speak two languages fluently",vi:"song ngữ",eg:"Their children are completely **bilingual**.",col:["a bilingual school","bilingual education"]},
+  {w:"to specialise in",p:"phrasal verb",ipa:"/ˈspeʃəlaɪz ɪn/",en:"to focus on one particular subject or area of work",vi:"chuyên về",eg:"She **specialises in** marine biology.",col:["specialise in a field"]},
+  {w:"coursework",p:"noun",ipa:"/ˈkɔːswɜːk/",en:"work done during a course that counts towards a grade",vi:"bài tập, đồ án trên lớp",eg:"Half the mark comes from **coursework**.",col:["submit coursework","continuous coursework"]},
+  ]},
+{ id:"health", name:"Health & Lifestyle", tag:"Topic 5",
+  cards:[
+  {w:"sedentary",p:"adjective",ipa:"/ˈsedntri/",en:"involving a lot of sitting and very little physical activity",vi:"ít vận động, ngồi nhiều",eg:"A **sedentary** lifestyle increases the risk of heart disease.",col:["a sedentary lifestyle","sedentary work"]},
+  {w:"to take up",p:"phrasal verb",ipa:"/teɪk ʌp/",en:"to start doing a new activity or hobby regularly",vi:"bắt đầu (thói quen/sở thích)",eg:"My doctor suggested I **take up** swimming to ease my back pain.",col:["take up a hobby","take up running"]},
+  {w:"well-being",p:"noun",ipa:"/ˌwelˈbiːɪŋ/",en:"the state of being comfortable, healthy and happy",vi:"sức khỏe & tinh thần (hạnh phúc)",eg:"Companies are investing more in the mental **well-being** of staff.",col:["mental well-being","sense of well-being"]},
+  {w:"to cut down on",p:"phrasal verb",ipa:"/kʌt daʊn ɒn/",en:"to reduce the amount of something you consume or do",vi:"cắt giảm",eg:"I'm trying to **cut down on** sugar and processed food.",col:["cut down on salt","cut down on screen time"]},
+  {w:"nutritious",p:"adjective",ipa:"/njuˈtrɪʃəs/",en:"containing substances that are good for your health and growth",vi:"bổ dưỡng, giàu dinh dưỡng",eg:"A **nutritious** breakfast helps children concentrate at school.",col:["a nutritious diet","nutritious meals"]},
+  {w:"to be prone to",p:"phrase",ipa:"/prəʊn tuː/",en:"to be likely to suffer from or do something unwanted",vi:"dễ mắc (bệnh), dễ bị",eg:"People who skip sleep are more **prone to** illness.",col:["prone to injury","accident-prone"]},
+  {w:"to recover",p:"verb",ipa:"/rɪˈkʌvə/",en:"to get back to a normal, healthy state after illness or difficulty",vi:"hồi phục",eg:"It took her a month to fully **recover** from the operation.",col:["recover from illness","a speedy recovery"]},
+  {w:"stress-related",p:"adjective",ipa:"/ˈstres rɪˌleɪtɪd/",en:"caused by or connected to mental pressure and worry",vi:"liên quan đến căng thẳng",eg:"**Stress-related** conditions are on the rise among young workers.",col:["stress-related illness","stress-related absence"]},
+  {w:"to boost",p:"verb",ipa:"/buːst/",en:"to increase or improve something, making it stronger",vi:"tăng cường, thúc đẩy",eg:"Regular exercise can **boost** both mood and immunity.",col:["boost your immune system","boost energy levels"]},
+  {w:"in moderation",p:"phrase",ipa:"/ɪn ˌmɒdəˈreɪʃn/",en:"within sensible limits; not too much",vi:"điều độ, chừng mực",eg:"Most doctors agree that coffee is fine **in moderation**.",col:["eat in moderation","everything in moderation"]},
+  {w:"balanced diet",p:"noun",ipa:"/ˌbælənst ˈdaɪət/",en:"eating the right variety and amount of different foods",vi:"chế độ ăn cân bằng",eg:"A **balanced diet** keeps your energy steady all day.",col:["eat a balanced diet","a healthy, balanced diet"]},
+  {w:"to work out",p:"phrasal verb",ipa:"/wɜːk aʊt/",en:"to do physical exercise to keep fit",vi:"tập luyện thể dục",eg:"I **work out** at the gym three times a week.",col:["work out regularly","a hard workout"]},
+  {w:"immune system",p:"noun",ipa:"/ɪˈmjuːn ˈsɪstəm/",en:"the body's natural defence against illness",vi:"hệ miễn dịch",eg:"Enough sleep strengthens your **immune system**.",col:["a strong immune system","weaken the immune system"]},
+  {w:"obesity",p:"noun",ipa:"/əʊˈbiːsəti/",en:"the condition of being very overweight in a way that harms health",vi:"béo phì",eg:"Childhood **obesity** is rising sharply.",col:["tackle obesity","the obesity epidemic"]},
+  {w:"symptom",p:"noun",ipa:"/ˈsɪmptəm/",en:"a sign that shows you have an illness",vi:"triệu chứng",eg:"A high fever is a common **symptom** of flu.",col:["show symptoms","mild symptoms"]},
+  {w:"to ease",p:"verb",ipa:"/iːz/",en:"to make pain or a problem less severe",vi:"làm dịu, giảm bớt",eg:"Gentle stretching can **ease** back pain.",col:["ease the pain","ease symptoms"]},
+  {w:"mental health",p:"noun",ipa:"/ˈmentl helθ/",en:"the condition of a person's mind and emotions",vi:"sức khỏe tinh thần",eg:"Exercise benefits both physical and **mental health**.",col:["mental health problems","poor mental health"]},
+  {w:"to get into shape",p:"idiom",ipa:"/ɡet ˈɪntə ʃeɪp/",en:"to become physically fit",vi:"lấy lại vóc dáng, rèn luyện thể lực",eg:"He joined a gym to **get into shape** before summer.",col:["get back into shape"]},
+  {w:"chronic",p:"adjective",ipa:"/ˈkrɒnɪk/",en:"(of an illness) lasting a very long time",vi:"mãn tính (bệnh)",eg:"She suffers from a **chronic** lung condition.",col:["a chronic illness","chronic pain"]},
+  {w:"to burn off",p:"phrasal verb",ipa:"/bɜːn ɒf/",en:"to use up energy or calories through activity",vi:"tiêu hao (năng lượng/calo)",eg:"A brisk walk helps **burn off** extra calories.",col:["burn off calories","burn off energy"]},
+  {w:"hygiene",p:"noun",ipa:"/ˈhaɪdʒiːn/",en:"keeping yourself and your surroundings clean to stay healthy",vi:"vệ sinh",eg:"Good **hygiene** prevents the spread of germs.",col:["personal hygiene","food hygiene"]},
+  {w:"to put on weight",p:"phrase",ipa:"/pʊt ɒn weɪt/",en:"to become heavier",vi:"tăng cân",eg:"Many people **put on weight** over the winter months.",col:["put on weight","put on a few kilos"]},
+  {w:"remedy",p:"noun",ipa:"/ˈremədi/",en:"a treatment or cure for an illness",vi:"phương thuốc, cách chữa",eg:"Honey is a popular **remedy** for a sore throat.",col:["a natural remedy","a home remedy"]},
+  {w:"sleep deprivation",p:"noun",ipa:"/sliːp ˌdeprɪˈveɪʃn/",en:"the state of not getting enough sleep",vi:"sự thiếu ngủ",eg:"**Sleep deprivation** badly harms concentration.",col:["suffer sleep deprivation","chronic sleep deprivation"]},
+  {w:"to maintain",p:"verb",ipa:"/meɪnˈteɪn/",en:"to keep something at the same good level",vi:"duy trì",eg:"It can be hard to **maintain** a healthy weight over time.",col:["maintain a healthy weight","maintain fitness"]},
+  {w:"addiction",p:"noun",ipa:"/əˈdɪkʃn/",en:"being unable to stop using or doing something harmful",vi:"sự nghiện",eg:"Sugar **addiction** is a growing public concern.",col:["overcome addiction","a serious addiction"]},
+  {w:"wholesome",p:"adjective",ipa:"/ˈhəʊlsəm/",en:"good for your health; healthy and natural",vi:"lành mạnh, bổ dưỡng",eg:"They cook simple, **wholesome** meals at home.",col:["wholesome food","wholesome ingredients"]},
+  {w:"to be run down",p:"phrase",ipa:"/rʌn daʊn/",en:"tired and in poor health, usually from overwork",vi:"mệt mỏi, suy nhược",eg:"After exams I felt completely **run down**.",col:["feel run down"]},
+  {w:"intake",p:"noun",ipa:"/ˈɪnteɪk/",en:"the amount of food, drink or a substance you take into your body",vi:"lượng (nạp vào cơ thể)",eg:"Doctors advise cutting your salt **intake**.",col:["daily intake","calorie intake"]},
+  {w:"posture",p:"noun",ipa:"/ˈpɒstʃə/",en:"the way you hold your body when sitting or standing",vi:"tư thế",eg:"Poor **posture** at a desk can cause neck pain.",col:["good posture","poor posture"]},
+  {w:"to diagnose",p:"verb",ipa:"/ˈdaɪəɡnəʊz/",en:"to identify an illness from its signs and symptoms",vi:"chẩn đoán",eg:"She was **diagnosed** with asthma as a child.",col:["diagnose a disease","early diagnosis"]},
+  {w:"outbreak",p:"noun",ipa:"/ˈaʊtbreɪk/",en:"a sudden start of a disease affecting many people",vi:"sự bùng phát (dịch)",eg:"There was an **outbreak** of flu at the school.",col:["a disease outbreak","contain an outbreak"]},
+  {w:"to prevent",p:"verb",ipa:"/prɪˈvent/",en:"to stop something from happening",vi:"ngăn ngừa",eg:"Vaccines **prevent** many serious diseases.",col:["prevent illness","prevent disease"]},
+  {w:"fitness",p:"noun",ipa:"/ˈfɪtnəs/",en:"the condition of being physically healthy and strong",vi:"thể lực, sự sung sức",eg:"Regular running greatly improves your **fitness**.",col:["physical fitness","improve fitness"]},
+  {w:"contagious",p:"adjective",ipa:"/kənˈteɪdʒəs/",en:"(of a disease) spreading easily from person to person",vi:"dễ lây lan",eg:"Measles is highly **contagious**.",col:["a contagious disease","highly contagious"]},
+  {w:"to cope with",p:"phrasal verb",ipa:"/kəʊp wɪð/",en:"to deal successfully with a difficult situation",vi:"đương đầu, xoay sở với",eg:"She learned to **cope with** the stress of work.",col:["cope with pressure","cope with stress"]},
+  {w:"painkiller",p:"noun",ipa:"/ˈpeɪnkɪlə/",en:"a drug that reduces or removes pain",vi:"thuốc giảm đau",eg:"He took a **painkiller** for his headache.",col:["take a painkiller","strong painkillers"]},
+  {w:"to overcome",p:"verb",ipa:"/ˌəʊvəˈkʌm/",en:"to successfully deal with and defeat a problem",vi:"vượt qua, khắc phục",eg:"With therapy she **overcame** her fear of flying.",col:["overcome an illness","overcome difficulties"]},
+  {w:"dehydration",p:"noun",ipa:"/ˌdiːhaɪˈdreɪʃn/",en:"the harmful loss of too much water from the body",vi:"sự mất nước",eg:"Drink regularly to avoid **dehydration**.",col:["cause dehydration","severe dehydration"]},
+  {w:"vigorous",p:"adjective",ipa:"/ˈvɪɡərəs/",en:"strong, energetic and forceful",vi:"mạnh mẽ, hăng hái",eg:"**Vigorous** exercise strengthens the heart.",col:["vigorous exercise","vigorous activity"]},
+  ]},
+{ id:"cause", name:"Cause, Effect & Change", tag:"Topic 6",
+  cards:[
+  {w:"to trigger",p:"verb",ipa:"/ˈtrɪɡə/",en:"to cause something, especially a reaction or event, to start",vi:"gây ra, châm ngòi cho",eg:"The policy change **triggered** a wave of public protest.",col:["trigger a reaction","trigger a crisis"]},
+  {w:"to stem from",p:"phrasal verb",ipa:"/stem frɒm/",en:"to be caused by or originate from something",vi:"bắt nguồn từ",eg:"Many of these problems **stem from** a lack of funding.",col:["stem from a cause","problems stemming from"]},
+  {w:"repercussions",p:"noun",ipa:"/ˌriːpəˈkʌʃnz/",en:"the indirect and usually unpleasant results that follow an action",vi:"hậu quả, hệ lụy (gián tiếp)",eg:"The decision had serious financial **repercussions** for the region.",col:["far-reaching repercussions","serious repercussions"]},
+  {w:"consequence",p:"noun",ipa:"/ˈkɒnsɪkwəns/",en:"a result or effect of an action or situation",vi:"hậu quả, kết quả",eg:"Job losses are a direct **consequence** of the factory closure.",col:["a direct consequence","face the consequences"]},
+  {w:"to bring about",p:"phrasal verb",ipa:"/brɪŋ əˈbaʊt/",en:"to make something happen; to cause change",vi:"mang lại, tạo ra (sự thay đổi)",eg:"New technology has **brought about** huge changes in retail.",col:["bring about change","bring about reform"]},
+  {w:"to exacerbate",p:"verb",ipa:"/ɪɡˈzæsəbeɪt/",en:"to make a bad situation even worse",vi:"làm trầm trọng thêm",eg:"Cutting staff only **exacerbated** the delays.",col:["exacerbate the problem","exacerbate tensions"]},
+  {w:"to give rise to",p:"phrase",ipa:"/ɡɪv raɪz tuː/",en:"to cause something to happen or exist",vi:"làm nảy sinh, dẫn đến",eg:"The reforms **gave rise to** a new wave of entrepreneurship.",col:["give rise to concern","give rise to problems"]},
+  {w:"substantial",p:"adjective",ipa:"/səbˈstænʃl/",en:"large in amount, size or importance",vi:"đáng kể, lớn",eg:"The project required a **substantial** investment of time and money.",col:["a substantial increase","substantial evidence"]},
+  {w:"to undermine",p:"verb",ipa:"/ˌʌndəˈmaɪn/",en:"to gradually weaken something or make it less effective",vi:"làm suy yếu, phá hoại ngầm",eg:"Constant criticism can **undermine** a child's confidence.",col:["undermine confidence","undermine authority"]},
+  {w:"a knock-on effect",p:"noun",ipa:"/ə ˈnɒk ɒn ɪˌfekt/",en:"an indirect result that causes other things to happen in turn",vi:"hiệu ứng dây chuyền",eg:"A delay at the port has a **knock-on effect** on shops nationwide.",col:["a knock-on effect on","have a knock-on effect"]},
+  {w:"to result in",p:"phrase",ipa:"/rɪˈzʌlt ɪn/",en:"to cause a particular outcome to happen",vi:"dẫn đến (kết quả)",eg:"Heavy rain **resulted in** severe flooding downtown.",col:["result in damage","result in losses"]},
+  {w:"to lead to",p:"phrase",ipa:"/liːd tuː/",en:"to cause something to happen, often over time",vi:"dẫn tới",eg:"A poor diet can **lead to** heart disease.",col:["lead to problems","lead to success"]},
+  {w:"outcome",p:"noun",ipa:"/ˈaʊtkʌm/",en:"the final result of a process or event",vi:"kết quả (cuối cùng)",eg:"Nobody could predict the **outcome** of the talks.",col:["a positive outcome","the likely outcome"]},
+  {w:"to contribute to",p:"phrase",ipa:"/kənˈtrɪbjuːt tuː/",en:"to be one of the causes of something",vi:"góp phần (gây ra)",eg:"Heavy traffic **contributes to** air pollution.",col:["contribute to a problem","contribute significantly"]},
+  {w:"impact",p:"noun",ipa:"/ˈɪmpækt/",en:"a strong effect that something has on another thing",vi:"tác động",eg:"The policy had a huge **impact** on small firms.",col:["a significant impact","have an impact on"]},
+  {w:"aftermath",p:"noun",ipa:"/ˈɑːftəmæθ/",en:"the period and effects that follow a bad event",vi:"hậu quả, giai đoạn sau (biến cố)",eg:"In the **aftermath** of the storm, thousands were homeless.",col:["in the aftermath of"]},
+  {w:"to spark",p:"verb",ipa:"/spɑːk/",en:"to suddenly cause something to start",vi:"châm ngòi, khơi mào",eg:"The announcement **sparked** heated debate.",col:["spark a debate","spark controversy"]},
+  {w:"inevitable",p:"adjective",ipa:"/ɪnˈevɪtəbl/",en:"certain to happen and impossible to avoid",vi:"không thể tránh khỏi",eg:"Some job losses were **inevitable** after the merger.",col:["an inevitable consequence","seemingly inevitable"]},
+  {w:"significant",p:"adjective",ipa:"/sɪɡˈnɪfɪkənt/",en:"large or important enough to have a noticeable effect",vi:"đáng kể, quan trọng",eg:"There has been a **significant** rise in prices.",col:["a significant increase","a significant impact"]},
+  {w:"gradual",p:"adjective",ipa:"/ˈɡrædʒuəl/",en:"happening slowly over a period of time",vi:"từ từ, dần dần",eg:"There was a **gradual** improvement in air quality.",col:["a gradual decline","gradual change"]},
+  {w:"drastic",p:"adjective",ipa:"/ˈdræstɪk/",en:"extreme and sudden in effect",vi:"mạnh mẽ, quyết liệt",eg:"The crisis called for **drastic** measures.",col:["drastic measures","drastic change"]},
+  {w:"to reverse",p:"verb",ipa:"/rɪˈvɜːs/",en:"to change something back to how it was before",vi:"đảo ngược",eg:"It may be too late to **reverse** the damage.",col:["reverse a decision","reverse a trend"]},
+  {w:"widespread",p:"adjective",ipa:"/ˈwaɪdspred/",en:"happening over a large area or among many people",vi:"lan rộng, phổ biến",eg:"The reform met **widespread** criticism.",col:["widespread support","widespread damage"]},
+  {w:"to escalate",p:"verb",ipa:"/ˈeskəleɪt/",en:"to become more serious or intense",vi:"leo thang, trầm trọng hơn",eg:"The dispute quickly **escalated** into a strike.",col:["escalate quickly","escalate into"]},
+  {w:"a ripple effect",p:"noun",ipa:"/ə ˈrɪpl ɪˌfekt/",en:"a spreading series of indirect effects, one after another",vi:"hiệu ứng lan tỏa",eg:"One factory closure had a **ripple effect** across the town.",col:["a ripple effect","create a ripple effect"]},
+  {w:"adverse",p:"adjective",ipa:"/ˈædvɜːs/",en:"negative, unfavourable and harmful",vi:"bất lợi, có hại",eg:"The drug has very few **adverse** effects.",col:["adverse effects","an adverse impact"]},
+  {w:"to attribute to",p:"phrase",ipa:"/əˈtrɪbjuːt tuː/",en:"to say that something is caused by a particular thing",vi:"quy cho, cho là do",eg:"The decline was **attributed to** poor management.",col:["attribute the cause to","widely attributed to"]},
+  {w:"consequently",p:"adverb",ipa:"/ˈkɒnsɪkwəntli/",en:"as a result of something",vi:"do đó, vì vậy",eg:"Sales fell sharply; **consequently**, staff were cut.",col:["and consequently"]},
+  {w:"root cause",p:"noun",ipa:"/ruːt kɔːz/",en:"the basic, underlying reason for a problem",vi:"nguyên nhân gốc rễ",eg:"We must address the **root cause**, not just the symptoms.",col:["the root cause of","identify the root cause"]},
+  {w:"to have an effect on",p:"phrase",ipa:"/hæv ən ɪˈfekt ɒn/",en:"to influence or change something",vi:"có ảnh hưởng đến",eg:"Stress can **have an effect on** the quality of your sleep.",col:["have a lasting effect on","have a direct effect on"]},
+  {w:"to influence",p:"verb",ipa:"/ˈɪnfluəns/",en:"to affect how something develops or how someone behaves",vi:"ảnh hưởng",eg:"Advertising strongly **influences** what we buy.",col:["influence a decision","heavily influence"]},
+  {w:"factor",p:"noun",ipa:"/ˈfæktə/",en:"one of the things that cause a particular result",vi:"yếu tố",eg:"Cost is a key **factor** in the decision.",col:["a major factor","a contributing factor"]},
+  {w:"side effect",p:"noun",ipa:"/ˈsaɪd ɪˌfekt/",en:"an extra, often unwanted, result of something",vi:"tác dụng phụ, hệ quả phụ",eg:"The policy had an unexpected **side effect**.",col:["an unwanted side effect","a side effect of"]},
+  {w:"to prompt",p:"verb",ipa:"/prɒmpt/",en:"to cause someone to do something, or cause a reaction",vi:"thúc đẩy, làm nảy sinh",eg:"The report **prompted** an immediate review.",col:["prompt a response","prompt action"]},
+  {w:"severe",p:"adjective",ipa:"/sɪˈvɪə/",en:"very bad, serious or intense",vi:"nghiêm trọng",eg:"The storm caused **severe** damage to the coast.",col:["severe damage","a severe impact"]},
+  {w:"to diminish",p:"verb",ipa:"/dɪˈmɪnɪʃ/",en:"to become or make smaller or less important",vi:"giảm sút, suy giảm",eg:"Public interest in the sport has **diminished** over time.",col:["diminish gradually","greatly diminish"]},
+  {w:"a turning point",p:"noun",ipa:"/ə ˈtɜːnɪŋ pɔɪnt/",en:"a moment when an important change takes place",vi:"bước ngoặt",eg:"The election was a **turning point** for the country.",col:["a major turning point","mark a turning point"]},
+  {w:"to accelerate",p:"verb",ipa:"/əkˈseləreɪt/",en:"to make something happen faster",vi:"thúc đẩy nhanh, tăng tốc",eg:"The crisis **accelerated** the shift to online work.",col:["accelerate change","accelerate growth"]},
+  {w:"profound",p:"adjective",ipa:"/prəˈfaʊnd/",en:"very great or intense; far-reaching",vi:"sâu sắc, sâu rộng",eg:"Technology has had a **profound** effect on society.",col:["a profound effect","profound change"]},
+  {w:"fluctuation",p:"noun",ipa:"/ˌflʌktʃuˈeɪʃn/",en:"an irregular rising and falling in number or amount",vi:"sự dao động, biến động",eg:"Price **fluctuations** worry many investors.",col:["price fluctuations","market fluctuations"]},
+  ]},
+{ id:"travel", name:"Travel & Tourism", tag:"Topic 7",
+  cards:[
+  {w:"destination",p:"noun",ipa:"/ˌdestɪˈneɪʃn/",en:"the place to which someone is travelling",vi:"điểm đến",eg:"Bali remains a top **destination** for honeymooners.",col:["a popular destination","a holiday destination"]},
+  {w:"itinerary",p:"noun",ipa:"/aɪˈtɪnərəri/",en:"a planned route or schedule for a journey",vi:"lịch trình",eg:"Our tour **itinerary** covered three cities in five days.",col:["a packed itinerary","plan an itinerary"]},
+  {w:"to embark on",p:"phrasal verb",ipa:"/ɪmˈbɑːk ɒn/",en:"to begin a journey or a new venture",vi:"bắt đầu (hành trình)",eg:"They **embarked on** a six-month trip across Asia.",col:["embark on a journey","embark on an adventure"]},
+  {w:"accommodation",p:"noun",ipa:"/əˌkɒməˈdeɪʃn/",en:"a place to stay, such as a hotel or guesthouse",vi:"chỗ ở",eg:"We booked **accommodation** near the beach.",col:["budget accommodation","book accommodation"]},
+  {w:"sightseeing",p:"noun",ipa:"/ˈsaɪtsiːɪŋ/",en:"visiting famous or interesting places as a tourist",vi:"tham quan",eg:"We spent the afternoon **sightseeing** in the old town.",col:["go sightseeing","a sightseeing tour"]},
+  {w:"breathtaking",p:"adjective",ipa:"/ˈbreθteɪkɪŋ/",en:"extremely impressive or beautiful",vi:"ngoạn mục, đẹp sững sờ",eg:"The view from the summit was **breathtaking**.",col:["breathtaking scenery","breathtaking views"]},
+  {w:"off the beaten track",p:"idiom",ipa:"/ɒf ðə ˈbiːtn træk/",en:"in a place far from where people usually go",vi:"nơi ít người lui tới",eg:"We prefer villages that are **off the beaten track**.",col:["somewhere off the beaten track"]},
+  {w:"to commute",p:"verb",ipa:"/kəˈmjuːt/",en:"to travel regularly between home and work",vi:"đi lại (nhà–chỗ làm) hằng ngày",eg:"She **commutes** two hours to the office each day.",col:["commute to work","a long commute"]},
+  {w:"jet lag",p:"noun",ipa:"/ˈdʒet læɡ/",en:"tiredness felt after a long flight across time zones",vi:"mệt do lệch múi giờ",eg:"It took me days to get over the **jet lag**.",col:["suffer from jet lag","bad jet lag"]},
+  {w:"picturesque",p:"adjective",ipa:"/ˌpɪktʃəˈresk/",en:"charming and pretty, like a picture",vi:"đẹp như tranh",eg:"We stayed in a **picturesque** mountain village.",col:["a picturesque town","picturesque scenery"]},
+  {w:"a package holiday",p:"noun",ipa:"/ə ˈpækɪdʒ ˈhɒlədeɪ/",en:"a trip with flights and hotel arranged together for one price",vi:"tour trọn gói",eg:"They booked a cheap **package holiday** to Spain.",col:["book a package holiday"]},
+  {w:"landmark",p:"noun",ipa:"/ˈlændmɑːk/",en:"a famous or easily recognised building or place",vi:"địa danh nổi tiếng",eg:"The tower is the city's best-known **landmark**.",col:["a famous landmark","a historic landmark"]},
+  {w:"to explore",p:"verb",ipa:"/ɪkˈsplɔː/",en:"to travel around a place in order to discover it",vi:"khám phá",eg:"We spent a week **exploring** the countryside.",col:["explore a region","explore new places"]},
+  {w:"hospitality",p:"noun",ipa:"/ˌhɒspɪˈtæləti/",en:"friendly and generous treatment of guests",vi:"sự hiếu khách",eg:"The locals were known for their warm **hospitality**.",col:["warm hospitality","the hospitality industry"]},
+  {w:"excursion",p:"noun",ipa:"/ɪkˈskɜːʃn/",en:"a short trip, usually for pleasure",vi:"chuyến đi ngắn, dã ngoại",eg:"The hotel offers day **excursions** to nearby islands.",col:["a day excursion","go on an excursion"]},
+  {w:"to venture",p:"verb",ipa:"/ˈventʃə/",en:"to go somewhere that may be risky or unfamiliar",vi:"mạo hiểm đi tới",eg:"Few tourists **venture** beyond the main resorts.",col:["venture into","venture abroad"]},
+  {w:"visa",p:"noun",ipa:"/ˈviːzə/",en:"official permission to enter a country",vi:"thị thực",eg:"You need a **visa** to travel there.",col:["apply for a visa","a tourist visa"]},
+  {w:"remote",p:"adjective",ipa:"/rɪˈməʊt/",en:"far away from towns and from other people",vi:"hẻo lánh, xa xôi",eg:"They trekked to a **remote** mountain village.",col:["a remote area","remote islands"]},
+  {w:"to soak up",p:"phrasal verb",ipa:"/səʊk ʌp/",en:"to enjoy and fully experience an atmosphere",vi:"tận hưởng (không khí)",eg:"We sat in the square to **soak up** the atmosphere.",col:["soak up the sun","soak up the atmosphere"]},
+  {w:"backpacking",p:"noun",ipa:"/ˈbækpækɪŋ/",en:"travelling cheaply while carrying your things in a backpack",vi:"du lịch bụi",eg:"They went **backpacking** around South America.",col:["go backpacking"]},
+  {w:"cultural heritage",p:"noun",ipa:"/ˈkʌltʃərəl ˈherɪtɪdʒ/",en:"traditions and monuments passed down over generations",vi:"di sản văn hóa",eg:"The city is rich in **cultural heritage**.",col:["preserve cultural heritage"]},
+  {w:"souvenir",p:"noun",ipa:"/ˌsuːvəˈnɪə/",en:"an object kept to remember a place or trip",vi:"đồ lưu niệm",eg:"She bought a small **souvenir** from each country.",col:["buy a souvenir","a souvenir shop"]},
+  {w:"bustling",p:"adjective",ipa:"/ˈbʌslɪŋ/",en:"full of energetic and noisy activity",vi:"nhộn nhịp, tấp nập",eg:"The **bustling** market was packed with vendors.",col:["a bustling city","bustling streets"]},
+  {w:"to get away from it all",p:"idiom",ipa:"/ˈɡet əˌweɪ frəm ɪt ɔːl/",en:"to go on holiday to escape the stress of daily life",vi:"đi trốn khỏi bộn bề",eg:"A quiet beach is perfect to **get away from it all**.",col:["a chance to get away from it all"]},
+  {w:"affordable",p:"adjective",ipa:"/əˈfɔːdəbl/",en:"not expensive; reasonably priced",vi:"giá cả phải chăng",eg:"The city has plenty of **affordable** hotels.",col:["affordable prices","an affordable option"]},
+  {w:"to broaden the mind",p:"idiom",ipa:"/ˈbrɔːdn ðə maɪnd/",en:"(of travel) to make you more open and knowledgeable",vi:"mở mang đầu óc",eg:"They say that travel **broadens the mind**.",col:["travel broadens the mind"]},
+  {w:"peak season",p:"noun",ipa:"/piːk ˈsiːzn/",en:"the busiest and most expensive time for travel",vi:"mùa cao điểm",eg:"Flights are far pricier during **peak season**.",col:["in peak season","the peak season"]},
+  {w:"to cancel",p:"verb",ipa:"/ˈkænsl/",en:"to decide that a planned trip or booking will not happen",vi:"hủy (chuyến đi/đặt chỗ)",eg:"They had to **cancel** the flight because of the storm.",col:["cancel a booking","cancel a flight"]},
+  {w:"scenery",p:"noun",ipa:"/ˈsiːnəri/",en:"the natural features of a landscape",vi:"phong cảnh",eg:"The train route offers stunning **scenery**.",col:["beautiful scenery","mountain scenery"]},
+  {w:"wanderlust",p:"noun",ipa:"/ˈwɒndəlʌst/",en:"a strong desire to travel and see the world",vi:"máu xê dịch, đam mê du lịch",eg:"Her **wanderlust** has taken her to forty countries.",col:["a sense of wanderlust"]},
+  {w:"tourist attraction",p:"noun",ipa:"/ˈtʊərɪst əˌtrækʃn/",en:"a place that people visit for interest or enjoyment",vi:"điểm thu hút du khách",eg:"The castle is the town's main **tourist attraction**.",col:["a popular tourist attraction"]},
+  {w:"to book",p:"verb",ipa:"/bʊk/",en:"to arrange and pay for travel or a room in advance",vi:"đặt (vé/phòng)",eg:"We **booked** our flights months ahead.",col:["book a flight","book in advance"]},
+  {w:"departure",p:"noun",ipa:"/dɪˈpɑːtʃə/",en:"the act of leaving to begin a journey",vi:"sự khởi hành",eg:"Our **departure** was delayed by thick fog.",col:["a departure time","a delayed departure"]},
+  {w:"luggage",p:"noun",ipa:"/ˈlʌɡɪdʒ/",en:"the bags and cases a traveller carries",vi:"hành lý",eg:"Try to pack your **luggage** the night before.",col:["hand luggage","excess luggage"]},
+  {w:"a getaway",p:"noun",ipa:"/ə ˈɡetəweɪ/",en:"a short holiday away from home",vi:"chuyến đi nghỉ ngắn",eg:"We booked a weekend **getaway** by the sea.",col:["a weekend getaway","a romantic getaway"]},
+  {w:"to roam",p:"verb",ipa:"/rəʊm/",en:"to wander freely over a wide area",vi:"rong ruổi, lang thang",eg:"They love to **roam** the hills on foot.",col:["roam freely","roam the streets"]},
+  {w:"vibrant",p:"adjective",ipa:"/ˈvaɪbrənt/",en:"full of energy, life and colour",vi:"sôi động, rực rỡ",eg:"The city is famous for its **vibrant** nightlife.",col:["a vibrant city","a vibrant culture"]},
+  {w:"a stopover",p:"noun",ipa:"/ə ˈstɒpəʊvə/",en:"a short stay somewhere during a longer journey",vi:"điểm dừng chân",eg:"We had a two-day **stopover** in Dubai.",col:["a short stopover"]},
+  {w:"to set off",p:"phrasal verb",ipa:"/set ˈɒf/",en:"to begin a journey",vi:"lên đường, khởi hành",eg:"We **set off** at dawn to beat the traffic.",col:["set off early","set off on a trip"]},
+  {w:"memorable",p:"adjective",ipa:"/ˈmemərəbl/",en:"worth remembering; special and not easily forgotten",vi:"đáng nhớ",eg:"It was the most **memorable** trip of my life.",col:["a memorable experience","truly memorable"]},
+  ]},
+{ id:"crime", name:"Crime & Law", tag:"Topic 8",
+  cards:[
+  {w:"to commit a crime",p:"phrase",ipa:"/kəˈmɪt ə kraɪm/",en:"to do something illegal",vi:"phạm tội",eg:"He **committed a crime** and was later arrested.",col:["commit a serious crime","commit an offence"]},
+  {w:"offender",p:"noun",ipa:"/əˈfendə/",en:"a person who has committed a crime",vi:"người phạm tội",eg:"Repeat **offenders** often receive harsher sentences.",col:["a first-time offender","a repeat offender"]},
+  {w:"to deter",p:"verb",ipa:"/dɪˈtɜː/",en:"to discourage someone from doing something",vi:"răn đe, ngăn chặn",eg:"Harsher penalties may **deter** would-be criminals.",col:["deter crime","a deterrent effect"]},
+  {w:"to convict",p:"verb",ipa:"/kənˈvɪkt/",en:"to find someone guilty of a crime in a court of law",vi:"kết tội",eg:"He was **convicted** of fraud.",col:["convict of a crime","a convicted criminal"]},
+  {w:"sentence",p:"noun",ipa:"/ˈsentəns/",en:"the punishment given to someone by a court",vi:"bản án, mức án",eg:"She received a five-year **sentence**.",col:["a prison sentence","a harsh sentence"]},
+  {w:"to rehabilitate",p:"verb",ipa:"/ˌriːəˈbɪlɪteɪt/",en:"to help a criminal return to a normal, law-abiding life",vi:"cải tạo, phục hồi",eg:"Prisons should **rehabilitate** offenders, not merely punish them.",col:["rehabilitate offenders"]},
+  {w:"witness",p:"noun",ipa:"/ˈwɪtnəs/",en:"a person who sees a crime and can describe it",vi:"nhân chứng",eg:"A **witness** described the robbery to police.",col:["a key witness","an eyewitness"]},
+  {w:"to prosecute",p:"verb",ipa:"/ˈprɒsɪkjuːt/",en:"to officially charge someone with a crime in court",vi:"truy tố",eg:"The company was **prosecuted** for pollution.",col:["prosecute a case","be prosecuted"]},
+  {w:"law-abiding",p:"adjective",ipa:"/ˈlɔː əˌbaɪdɪŋ/",en:"obeying the law",vi:"tuân thủ pháp luật",eg:"Most citizens are **law-abiding** people.",col:["a law-abiding citizen"]},
+  {w:"theft",p:"noun",ipa:"/θeft/",en:"the crime of stealing",vi:"hành vi trộm cắp",eg:"Bike **theft** is common in the city centre.",col:["petty theft","report a theft"]},
+  {w:"to enforce",p:"verb",ipa:"/ɪnˈfɔːs/",en:"to make sure that a law is obeyed",vi:"thực thi, cưỡng chế",eg:"Police struggle to **enforce** the new rules.",col:["enforce the law","strictly enforce"]},
+  {w:"verdict",p:"noun",ipa:"/ˈvɜːdɪkt/",en:"the decision made by a jury at the end of a trial",vi:"phán quyết",eg:"The jury reached a guilty **verdict**.",col:["a guilty verdict","reach a verdict"]},
+  {w:"to break the law",p:"phrase",ipa:"/breɪk ðə lɔː/",en:"to do something illegal",vi:"vi phạm pháp luật",eg:"Downloading that content is **breaking the law**.",col:["break the law repeatedly"]},
+  {w:"corruption",p:"noun",ipa:"/kəˈrʌpʃn/",en:"dishonest or illegal behaviour by people in power",vi:"tham nhũng",eg:"The scandal exposed widespread **corruption**.",col:["tackle corruption","political corruption"]},
+  {w:"fine",p:"noun",ipa:"/faɪn/",en:"a sum of money paid as a punishment",vi:"tiền phạt",eg:"He was given a heavy **fine** for speeding.",col:["pay a fine","a hefty fine"]},
+  {w:"to tackle",p:"verb",ipa:"/ˈtækl/",en:"to deal firmly with a difficult problem",vi:"xử lý, giải quyết",eg:"The government aims to **tackle** knife crime.",col:["tackle crime","tackle a problem"]},
+  {w:"suspect",p:"noun",ipa:"/ˈsʌspekt/",en:"a person thought to have committed a crime",vi:"nghi phạm",eg:"Police have arrested a **suspect**.",col:["a prime suspect","question a suspect"]},
+  {w:"trial",p:"noun",ipa:"/ˈtraɪəl/",en:"the legal process of examining a case in court",vi:"phiên tòa, vụ xử",eg:"The **trial** lasted three weeks.",col:["stand trial","a fair trial"]},
+  {w:"to impose",p:"verb",ipa:"/ɪmˈpəʊz/",en:"to officially force a rule or punishment on someone",vi:"áp đặt (hình phạt)",eg:"Courts can **impose** strict penalties.",col:["impose a penalty","impose a fine"]},
+  {w:"vandalism",p:"noun",ipa:"/ˈvændəlɪzəm/",en:"the deliberate damaging of property",vi:"hành vi phá hoại",eg:"**Vandalism** of bus shelters is on the rise.",col:["acts of vandalism"]},
+  {w:"juvenile",p:"adjective",ipa:"/ˈdʒuːvənaɪl/",en:"relating to young people, especially young offenders",vi:"vị thành niên",eg:"**Juvenile** crime has fallen over the decade.",col:["juvenile crime","a juvenile offender"]},
+  {w:"to get away with",p:"phrasal verb",ipa:"/ɡet əˈweɪ wɪð/",en:"to avoid being punished for something wrong",vi:"thoát tội, không bị phạt",eg:"He thought he could **get away with** cheating.",col:["get away with a crime"]},
+  {w:"innocent",p:"adjective",ipa:"/ˈɪnəsnt/",en:"not guilty of a crime",vi:"vô tội",eg:"The court found her **innocent**.",col:["presumed innocent","an innocent man"]},
+  {w:"a crackdown",p:"noun",ipa:"/ə ˈkrækdaʊn/",en:"strong official action to stop something",vi:"cuộc trấn áp mạnh tay",eg:"Police launched a **crackdown** on drink-driving.",col:["a crackdown on crime"]},
+  {w:"bail",p:"noun",ipa:"/beɪl/",en:"money paid so an accused person can be free before trial",vi:"tiền tại ngoại",eg:"He was released on **bail**.",col:["released on bail","grant bail"]},
+  {w:"to smuggle",p:"verb",ipa:"/ˈsmʌɡl/",en:"to move goods illegally across borders",vi:"buôn lậu",eg:"They tried to **smuggle** goods across the border.",col:["smuggle drugs","smuggle goods"]},
+  {w:"jury",p:"noun",ipa:"/ˈdʒʊəri/",en:"a group of people who decide guilt or innocence in a trial",vi:"bồi thẩm đoàn",eg:"The **jury** deliberated for two days.",col:["a jury of twelve","the jury decided"]},
+  {w:"a victim",p:"noun",ipa:"/ə ˈvɪktɪm/",en:"a person who is harmed by a crime or event",vi:"nạn nhân",eg:"More support is offered to **victims** of crime.",col:["a victim of crime","an innocent victim"]},
+  {w:"to abolish",p:"verb",ipa:"/əˈbɒlɪʃ/",en:"to officially end a law or practice",vi:"bãi bỏ",eg:"Many countries have **abolished** the death penalty.",col:["abolish a law","abolish the death penalty"]},
+  {w:"security",p:"noun",ipa:"/sɪˈkjʊərəti/",en:"measures taken to keep people and places safe",vi:"an ninh",eg:"Airport **security** has been tightened.",col:["tight security","security measures"]},
+  {w:"burglary",p:"noun",ipa:"/ˈbɜːɡləri/",en:"the crime of entering a building illegally to steal",vi:"trộm đột nhập",eg:"There has been a spate of **burglaries** in the area.",col:["report a burglary","a burglary attempt"]},
+  {w:"to arrest",p:"verb",ipa:"/əˈrest/",en:"(of the police) to seize someone because of a crime",vi:"bắt giữ",eg:"Police **arrested** two men at the scene.",col:["arrest a suspect","be arrested"]},
+  {w:"evidence",p:"noun",ipa:"/ˈevɪdəns/",en:"facts used in court to show whether something is true",vi:"bằng chứng",eg:"There was not enough **evidence** to convict him.",col:["strong evidence","lack of evidence"]},
+  {w:"guilty",p:"adjective",ipa:"/ˈɡɪlti/",en:"having committed a crime or done wrong",vi:"có tội",eg:"The jury found him **guilty** of theft.",col:["found guilty","plead guilty"]},
+  {w:"punishment",p:"noun",ipa:"/ˈpʌnɪʃmənt/",en:"a penalty given for doing something wrong",vi:"sự trừng phạt, hình phạt",eg:"The **punishment** should fit the crime.",col:["harsh punishment","capital punishment"]},
+  {w:"to investigate",p:"verb",ipa:"/ɪnˈvestɪɡeɪt/",en:"to try to find out the facts about a crime",vi:"điều tra",eg:"Detectives are **investigating** the robbery.",col:["investigate a crime","thoroughly investigate"]},
+  {w:"fraud",p:"noun",ipa:"/frɔːd/",en:"the crime of deceiving people in order to get money",vi:"gian lận, lừa đảo",eg:"He was jailed for tax **fraud**.",col:["commit fraud","credit-card fraud"]},
+  {w:"forensic",p:"adjective",ipa:"/fəˈrenzɪk/",en:"relating to scientific methods of solving crimes",vi:"pháp y, điều tra hình sự",eg:"**Forensic** experts carefully examined the scene.",col:["forensic evidence","a forensic scientist"]},
+  {w:"to intervene",p:"verb",ipa:"/ˌɪntəˈviːn/",en:"to become involved in order to change or stop something",vi:"can thiệp",eg:"Bystanders **intervened** to stop the fight.",col:["intervene in a situation","intervene quickly"]},
+  {w:"unlawful",p:"adjective",ipa:"/ʌnˈlɔːfl/",en:"not allowed by the law; illegal",vi:"bất hợp pháp",eg:"The court ruled that the search was **unlawful**.",col:["unlawful behaviour","unlawful killing"]},
+  ]},
+{ id:"money", name:"Money & the Economy", tag:"Topic 9",
+  cards:[
+  {w:"income",p:"noun",ipa:"/ˈɪnkʌm/",en:"the money a person or group receives regularly",vi:"thu nhập",eg:"Housing costs eat up much of their **income**.",col:["a steady income","disposable income"]},
+  {w:"to save up",p:"phrasal verb",ipa:"/seɪv ʌp/",en:"to keep money gradually for a future purpose",vi:"tiết kiệm (để dành)",eg:"They **saved up** for years to buy a house.",col:["save up for something"]},
+  {w:"expenditure",p:"noun",ipa:"/ɪkˈspendɪtʃə/",en:"the amount of money that is spent",vi:"chi tiêu, khoản chi",eg:"Household **expenditure** has risen sharply.",col:["public expenditure","cut expenditure"]},
+  {w:"to afford",p:"verb",ipa:"/əˈfɔːd/",en:"to have enough money to buy or do something",vi:"đủ khả năng chi trả",eg:"Few families can **afford** private healthcare.",col:["cannot afford","afford to buy"]},
+  {w:"inflation",p:"noun",ipa:"/ɪnˈfleɪʃn/",en:"a general rise in prices over time",vi:"lạm phát",eg:"Rising **inflation** is squeezing household budgets.",col:["high inflation","curb inflation"]},
+  {w:"to invest",p:"verb",ipa:"/ɪnˈvest/",en:"to put money into something in order to make a profit",vi:"đầu tư",eg:"They **invest** heavily in renewable energy.",col:["invest in shares","invest wisely"]},
+  {w:"budget",p:"noun",ipa:"/ˈbʌdʒɪt/",en:"a plan for how to spend a fixed amount of money",vi:"ngân sách",eg:"We set a monthly **budget** for groceries.",col:["stick to a budget","a tight budget"]},
+  {w:"to be well off",p:"idiom",ipa:"/wel ˈɒf/",en:"to be wealthy; to have plenty of money",vi:"khá giả, giàu có",eg:"His family is quite **well off**.",col:["fairly well off"]},
+  {w:"debt",p:"noun",ipa:"/det/",en:"money that is owed to someone",vi:"nợ",eg:"Many graduates are burdened with **debt**.",col:["pay off debt","in debt"]},
+  {w:"recession",p:"noun",ipa:"/rɪˈseʃn/",en:"a period when the economy shrinks and trade slows",vi:"suy thoái kinh tế",eg:"Unemployment soared during the **recession**.",col:["a deep recession","economic recession"]},
+  {w:"to make ends meet",p:"idiom",ipa:"/meɪk endz ˈmiːt/",en:"to earn just enough money to live on",vi:"chật vật xoay sở đủ sống",eg:"On one salary they struggle to **make ends meet**.",col:["struggle to make ends meet"]},
+  {w:"wage",p:"noun",ipa:"/weɪdʒ/",en:"money paid regularly for work, often by the hour or week",vi:"tiền công, lương",eg:"The minimum **wage** was raised this year.",col:["the minimum wage","a decent wage"]},
+  {w:"prosperity",p:"noun",ipa:"/prɒˈsperəti/",en:"the state of being successful and wealthy",vi:"sự thịnh vượng",eg:"Trade brought the region decades of **prosperity**.",col:["economic prosperity","bring prosperity"]},
+  {w:"to borrow",p:"verb",ipa:"/ˈbɒrəʊ/",en:"to take money that you will have to pay back",vi:"vay mượn",eg:"They had to **borrow** money from the bank.",col:["borrow money","borrow from"]},
+  {w:"cost of living",p:"noun",ipa:"/kɒst əv ˈlɪvɪŋ/",en:"the amount of money needed to pay for basic necessities",vi:"chi phí sinh hoạt",eg:"The **cost of living** has soared in big cities.",col:["the rising cost of living"]},
+  {w:"to cut back",p:"phrasal verb",ipa:"/kʌt ˈbæk/",en:"to reduce the amount of money you spend",vi:"cắt giảm chi tiêu",eg:"Families are **cutting back** on luxuries.",col:["cut back on spending"]},
+  {w:"loan",p:"noun",ipa:"/ləʊn/",en:"a sum of money that is borrowed and must be repaid",vi:"khoản vay",eg:"She took out a **loan** to start a business.",col:["take out a loan","repay a loan"]},
+  {w:"to thrive",p:"verb",ipa:"/θraɪv/",en:"to grow or do very well, especially in business",vi:"phát đạt, thịnh vượng",eg:"Small shops **thrive** in the tourist district.",col:["businesses thrive","thrive economically"]},
+  {w:"taxation",p:"noun",ipa:"/tækˈseɪʃn/",en:"the system of charging taxes",vi:"việc đánh thuế",eg:"Higher **taxation** funds public services.",col:["the taxation system","income taxation"]},
+  {w:"to go bankrupt",p:"phrase",ipa:"/ɡəʊ ˈbæŋkrʌpt/",en:"to become unable to pay the money you owe",vi:"phá sản",eg:"The airline **went bankrupt** last year.",col:["nearly go bankrupt"]},
+  {w:"currency",p:"noun",ipa:"/ˈkʌrənsi/",en:"the system of money used in a particular country",vi:"tiền tệ",eg:"The country's **currency** lost half its value.",col:["foreign currency","a strong currency"]},
+  {w:"to boom",p:"verb",ipa:"/buːm/",en:"(of an economy or business) to grow very quickly",vi:"bùng nổ, tăng mạnh",eg:"The housing market **boomed** after the reforms.",col:["the economy boomed","a booming industry"]},
+  {w:"financial",p:"adjective",ipa:"/faɪˈnænʃl/",en:"relating to money and how it is managed",vi:"thuộc về tài chính",eg:"The firm is in serious **financial** trouble.",col:["financial difficulties","financial support"]},
+  {w:"to splash out",p:"phrasal verb",ipa:"/splæʃ aʊt/",en:"to spend a lot of money on something enjoyable",vi:"vung tiền, chi mạnh",eg:"They **splashed out** on a luxury cruise.",col:["splash out on something"]},
+  {w:"living standards",p:"noun",ipa:"/ˈlɪvɪŋ ˌstændədz/",en:"the level of comfort and wealth that people have",vi:"mức sống",eg:"Rising wages improved **living standards**.",col:["raise living standards","high living standards"]},
+  {w:"a windfall",p:"noun",ipa:"/ə ˈwɪndfɔːl/",en:"a large amount of money received unexpectedly",vi:"khoản tiền trời cho",eg:"She spent her **windfall** on travelling.",col:["an unexpected windfall","a tax windfall"]},
+  {w:"to subsidise",p:"verb",ipa:"/ˈsʌbsɪdaɪz/",en:"to pay part of the cost so that something is cheaper",vi:"trợ cấp, tài trợ",eg:"The state **subsidises** public transport.",col:["subsidise farmers","heavily subsidise"]},
+  {w:"wealthy",p:"adjective",ipa:"/ˈwelθi/",en:"having a lot of money and possessions",vi:"giàu có",eg:"Only the **wealthy** can afford such homes.",col:["a wealthy family","extremely wealthy"]},
+  {w:"transaction",p:"noun",ipa:"/trænˈzækʃn/",en:"an instance of buying or selling something",vi:"giao dịch",eg:"Most **transactions** are now done online.",col:["a financial transaction","online transactions"]},
+  {w:"to be in the red",p:"idiom",ipa:"/ɪn ðə ˈred/",en:"to owe money; to have spent more than you have",vi:"thâm hụt, nợ nần",eg:"The company has been **in the red** for two years.",col:["slip into the red"]},
+  {w:"profit",p:"noun",ipa:"/ˈprɒfɪt/",en:"money gained in business after costs are subtracted",vi:"lợi nhuận",eg:"The firm made a healthy **profit** last year.",col:["make a profit","a huge profit"]},
+  {w:"to spend",p:"verb",ipa:"/spend/",en:"to use money to pay for goods or services",vi:"chi tiêu, tiêu (tiền)",eg:"They **spend** far too much on eating out.",col:["spend money","spend wisely"]},
+  {w:"interest",p:"noun",ipa:"/ˈɪntrəst/",en:"money paid for borrowing, or earned on savings",vi:"tiền lãi",eg:"The loan carries a high rate of **interest**.",col:["an interest rate","pay interest"]},
+  {w:"to charge",p:"verb",ipa:"/tʃɑːdʒ/",en:"to ask an amount of money for goods or a service",vi:"tính giá, thu phí",eg:"The bank **charges** a small monthly fee.",col:["charge a fee","charge too much"]},
+  {w:"valuable",p:"adjective",ipa:"/ˈvæljuəbl/",en:"worth a lot of money",vi:"có giá trị cao",eg:"The old painting is extremely **valuable**.",col:["a valuable asset","highly valuable"]},
+  {w:"to purchase",p:"verb",ipa:"/ˈpɜːtʃəs/",en:"to buy something (a formal word)",vi:"mua (trang trọng)",eg:"They **purchased** a flat in the city centre.",col:["purchase a home","make a purchase"]},
+  {w:"shortage",p:"noun",ipa:"/ˈʃɔːtɪdʒ/",en:"a situation in which there is not enough of something",vi:"sự thiếu hụt",eg:"A **shortage** of housing has pushed up prices.",col:["a labour shortage","a food shortage"]},
+  {w:"to donate",p:"verb",ipa:"/dəʊˈneɪt/",en:"to give money or goods in order to help others",vi:"quyên góp, hiến tặng",eg:"They **donate** part of their profits to charity.",col:["donate money","donate to charity"]},
+  {w:"luxury",p:"noun",ipa:"/ˈlʌkʃəri/",en:"something expensive and pleasant that is not essential",vi:"xa xỉ phẩm, sự xa hoa",eg:"A second car is a **luxury** they can't afford.",col:["a luxury item","pure luxury"]},
+  {w:"stock market",p:"noun",ipa:"/ˈstɒk ˌmɑːkɪt/",en:"the place where company shares are bought and sold",vi:"thị trường chứng khoán",eg:"The **stock market** fell sharply today.",col:["invest in the stock market","the stock market crashed"]},
+  ]},
+];
+
+/* ======================= EXERCISE TYPES ======================= */
+const EX_TYPES=[
+ {id:"gap",    name:"Điền vào chỗ trống",      blurb:"Chọn từ đúng điền vào câu"},
+ {id:"context",name:"Đoán nghĩa theo ngữ cảnh", blurb:"Suy ra nghĩa từ câu ví dụ"},
+ {id:"colloc", name:"Kết hợp từ (Collocation)", blurb:"Chọn cụm đi kèm đúng"},
+ {id:"def",    name:"Định nghĩa → chọn từ",     blurb:"Đọc định nghĩa, chọn từ"},
+ {id:"usage",  name:"Chọn câu dùng từ đúng",    blurb:"Câu nào dùng từ đúng cách"},
+ {id:"syn",    name:"Chọn từ đồng nghĩa (Synonym)", blurb:"Chọn từ gần nghĩa — luyện paraphrase"},
+];
+const TYPE_NAME=Object.fromEntries(EX_TYPES.map(t=>[t.id,t.name]));
+const ALL_TYPES=EX_TYPES.map(t=>t.id);
+
+/* synonym / paraphrase for each headword (for the Synonym exercise) */
+const SYN={
+ "endangered species":"at-risk species","exhaust fumes":"vehicle emissions","fossil fuels":"coal, oil and gas","depletion":"using up / exhaustion","to curb":"to limit / restrain","mitigate":"to lessen / reduce","sustainable":"eco-friendly / long-lasting","carbon footprint":"carbon impact","conservation":"protection of nature","to pose a threat":"to endanger","renewable energy":"clean energy","emissions":"released gases","deforestation":"forest clearing","landfill":"a rubbish dump","to recycle":"to reuse","biodegradable":"naturally decaying","drought":"a dry spell","habitat":"a natural home","pollutant":"a contaminant","to offset":"to counterbalance","scarce":"in short supply","to dispose of":"to get rid of","toxic":"poisonous","to raise awareness":"to inform the public","ecosystem":"a natural community","overfishing":"excessive fishing","to conserve":"to save / protect","greenhouse gas":"a heat-trapping gas","detrimental":"harmful","to phase out":"to withdraw gradually",
+ "recruitment":"hiring","to pursue a career":"to follow a profession","demanding":"challenging / tough","to climb the ladder":"to get promoted","redundant":"no longer needed","work–life balance":"job-life balance","to take on":"to hire / accept","expertise":"skill / know-how","to be snowed under":"overwhelmed with work","incentive":"motivation / reward","CV (résumé)":"a work-history document","to apply for":"to put in for","promotion":"advancement","workload":"amount of work","colleague":"a co-worker","to meet a deadline":"to finish on time","self-employed":"freelance","a steep learning curve":"a tough learning period","motivated":"driven / eager","perk":"an extra benefit","to be laid off":"to lose one's job","shift":"a work period","qualifications":"credentials","to juggle":"to manage at once","rewarding":"satisfying / fulfilling","to delegate":"to hand over tasks","prospects":"future chances","burnout":"exhaustion from overwork","to stand out":"to be noticeable","salary":"pay / wages",
+ "cutting-edge":"state-of-the-art","to keep up with":"to stay current with","user-friendly":"easy to use","to roll out":"to launch","addictive":"habit-forming","to automate":"to mechanise","breakthrough":"a major advance","to be glued to":"to stare fixedly at","reliable":"dependable","to revolutionise":"to transform","artificial intelligence":"machine intelligence","device":"a piece of equipment","to browse":"to surf the web","innovation":"a new development","screen time":"time spent on screens","obsolete":"outdated","data":"information","to upgrade":"to improve / update","convenient":"handy","gadget":"a small electronic tool","to crash":"to break down / freeze","cyberbullying":"online harassment","streaming":"online playback","to go viral":"to spread rapidly","digital":"electronic","to hack":"to break into a system","password":"an access code","seamless":"smooth","to multitask":"to do several things at once","subscription":"a membership plan",
+ "to broaden your horizons":"to widen your experience","curriculum":"a course of study","to grasp":"to understand","rote learning":"learning by heart","tuition fees":"course costs","to drop out":"to quit a course","well-rounded":"all-round","to instil":"to implant values","compulsory":"mandatory","hands-on":"practical","scholarship":"a study grant","undergraduate":"a first-degree student","to enrol":"to sign up","lecture":"a teaching talk","academic":"scholarly","to revise":"to study for exams","assignment":"a task / coursework","to fall behind":"to lag behind","distance learning":"remote study","to excel":"to do extremely well","literacy":"reading and writing ability","mature student":"an older student","to graduate":"to complete a degree","intensive":"concentrated","peer pressure":"social pressure","to foster":"to encourage / nurture","discipline":"self-control","extracurricular":"out-of-class","to retain":"to remember / keep","vocational":"job-related",
+ "sedentary":"inactive","to take up":"to start doing","well-being":"wellness","to cut down on":"to reduce","nutritious":"nourishing","to be prone to":"likely to suffer from","to recover":"to get better","stress-related":"caused by stress","to boost":"to increase","in moderation":"in sensible amounts","balanced diet":"a varied diet","to work out":"to exercise","immune system":"the body's defences","obesity":"serious overweight","symptom":"a sign of illness","to ease":"to relieve","mental health":"psychological health","to get into shape":"to become fit","chronic":"long-lasting","to burn off":"to use up energy","hygiene":"cleanliness","to put on weight":"to gain weight","remedy":"a cure / treatment","sleep deprivation":"lack of sleep","to maintain":"to keep up","addiction":"dependency","wholesome":"healthy","to be run down":"exhausted / unwell","intake":"amount consumed","posture":"body position",
+ "to trigger":"to set off","to stem from":"to arise from","repercussions":"after-effects","consequence":"a result","to bring about":"to cause","to exacerbate":"to worsen","to give rise to":"to lead to","substantial":"considerable","to undermine":"to weaken","a knock-on effect":"a chain reaction","to result in":"to end in / cause","to lead to":"to bring about","outcome":"a result","to contribute to":"to add to a cause","impact":"an effect","aftermath":"the consequences after an event","to spark":"to trigger","inevitable":"unavoidable","significant":"notable / important","gradual":"step-by-step","drastic":"extreme","to reverse":"to undo","widespread":"extensive","to escalate":"to intensify","a ripple effect":"a spreading effect","adverse":"unfavourable / harmful","to attribute to":"to blame on / credit to","consequently":"as a result","root cause":"the underlying cause","to have an effect on":"to affect",
+ "destination":"a place to travel to","itinerary":"a travel plan","to embark on":"to set out on","accommodation":"a place to stay","sightseeing":"touring attractions","breathtaking":"stunning","off the beaten track":"away from the crowds","to commute":"to travel to work","jet lag":"time-zone tiredness","picturesque":"pretty / charming","a package holiday":"an all-in-one trip","landmark":"a famous site","to explore":"to travel around / discover","hospitality":"a friendly welcome","excursion":"a short trip","to venture":"to dare to go","visa":"an entry permit","remote":"far-off / isolated","to soak up":"to take in / enjoy","backpacking":"budget travelling","cultural heritage":"cultural traditions","souvenir":"a keepsake","bustling":"busy and lively","to get away from it all":"to escape routine","affordable":"reasonably priced","to broaden the mind":"to make you more open-minded","peak season":"the busiest time","to cancel":"to call off","scenery":"landscape views","wanderlust":"a passion for travel",
+ "to commit a crime":"to break the law","offender":"a lawbreaker","to deter":"to discourage / put off","to convict":"to find guilty","sentence":"a court punishment","to rehabilitate":"to reform","witness":"an observer of a crime","to prosecute":"to take to court","law-abiding":"obeying the law","theft":"stealing","to enforce":"to apply / impose","verdict":"a court decision","to break the law":"to act illegally","corruption":"dishonesty / bribery","fine":"a money penalty","to tackle":"to deal with","suspect":"a person under suspicion","trial":"a court hearing","to impose":"to force on / enforce","vandalism":"deliberate damage","juvenile":"youth / underage","to get away with":"to escape punishment for","innocent":"not guilty","a crackdown":"a tough clampdown","bail":"pre-trial release money","to smuggle":"to traffic illegally","jury":"a panel deciding guilt","a victim":"a person harmed","to abolish":"to do away with","security":"safety / protection",
+ "income":"earnings","to save up":"to put money aside","expenditure":"spending","to afford":"to be able to pay for","inflation":"rising prices","to invest":"to put money into","budget":"a spending plan","to be well off":"wealthy","debt":"money owed","recession":"an economic downturn","to make ends meet":"to get by financially","wage":"pay for work","prosperity":"wealth and success","to borrow":"to take a loan","cost of living":"the price of daily living","to cut back":"to reduce spending","loan":"borrowed money","to thrive":"to flourish","taxation":"the tax system","to go bankrupt":"to become insolvent","currency":"money / legal tender","to boom":"to grow rapidly","financial":"money-related","to splash out":"to spend freely","living standards":"quality of life","a windfall":"unexpected money","to subsidise":"to financially support","wealthy":"rich / affluent","transaction":"a deal / exchange","to be in the red":"owing money / in deficit",
+ "contamination":"pollution","extinction":"dying out completely","to preserve":"to protect / keep","waste":"rubbish / refuse","flooding":"inundation","to pollute":"to contaminate","erosion":"gradual wearing away","green":"eco-friendly","to reduce":"to cut down","to restore":"to bring back / repair",
+ "candidate":"a job applicant","to resign":"to quit / step down","workforce":"the staff / employees","teamwork":"collaboration","to supervise":"to oversee / manage","overtime":"extra working hours","a vacancy":"an open position","competent":"capable / skilled","to earn a living":"to make a living","flexible":"adaptable",
+ "app":"a software application","to download":"to save from the internet","network":"a connected system","to malfunction":"to break down / fail","privacy":"confidentiality","to replace":"to take the place of","efficient":"productive / effective","a glitch":"a small fault","to connect":"to link up","wireless":"cable-free",
+ "to memorise":"to learn by heart","tutor":"a private teacher","degree":"a university qualification","to sit an exam":"to take a test","knowledge":"understanding / learning","to cram":"to study hard last-minute","feedback":"comments / evaluation","bilingual":"speaking two languages","to specialise in":"to focus on","coursework":"assessed projects",
+ "to diagnose":"to identify an illness","outbreak":"a sudden spread","to prevent":"to stop / avert","fitness":"physical condition","contagious":"easily spread / infectious","to cope with":"to deal with / manage","painkiller":"pain medicine","to overcome":"to conquer / beat","dehydration":"lack of water","vigorous":"energetic / strenuous",
+ "to influence":"to affect / shape","factor":"a cause / element","side effect":"a secondary result","to prompt":"to cause / spur","severe":"serious / extreme","to diminish":"to lessen / decline","a turning point":"a decisive moment","to accelerate":"to speed up","profound":"deep / far-reaching","fluctuation":"variation / ups and downs",
+ "tourist attraction":"a place worth visiting","to book":"to reserve","departure":"setting off / leaving","luggage":"baggage","a getaway":"a short break","to roam":"to wander","vibrant":"lively and colourful","a stopover":"a brief stop","to set off":"to depart / leave","memorable":"unforgettable",
+ "burglary":"a break-in","to arrest":"to take into custody","evidence":"proof","guilty":"at fault / culpable","punishment":"a penalty","to investigate":"to look into","fraud":"deception for gain","forensic":"crime-science related","to intervene":"to step in","unlawful":"illegal",
+ "profit":"financial gain","to spend":"to pay out","interest":"a charge on borrowed money","to charge":"to ask a price","valuable":"worth a lot","to purchase":"to buy","shortage":"a lack / deficit","to donate":"to give to charity","luxury":"an expensive treat","stock market":"the share market",
+};
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;}
+function pick(a,n){return shuffle(a).slice(0,n);}
+function boldOf(c){const m=c.eg.match(/\*\*(.+?)\*\*/);return m?m[1]:c.w;}
+function plain(eg){return eg.replace(/\*\*(.+?)\*\*/g,"$1");}
+function distract(others,n,textFn,taken){
+  const used=new Set(taken),out=[];
+  for(const c of shuffle(others)){const t=textFn(c);if(t&&!used.has(t)){used.add(t);out.push(c);if(out.length===n)break;}}
+  return out;
+}
+function buildQ(card,others,typeId){
+  let correctText,correctWhy,ds,stem,gloss=null,tip="";
+  if(typeId==="gap"){
+    correctText=boldOf(card);
+    correctWhy="**"+card.w+"** = "+card.en+". Hợp với ngữ cảnh của câu.";
+    ds=distract(others,3,boldOf,[correctText]).map(c=>({text:boldOf(c),why:"**"+boldOf(c)+"** ("+c.w+") = "+c.en+" — không hợp câu này.",correct:false}));
+    stem="“"+card.eg.replace(/\*\*.+?\*\*/,"____")+"”";
+    gloss=card.en;
+    tip="Ví dụ đầy đủ: "+plain(card.eg)+(card.col.length?("   ·   đi với: "+card.col.join(", ")):"");
+  } else if(typeId==="context"){
+    correctText=card.en;
+    correctWhy="Đúng — *"+card.w+"* nghĩa là "+card.en+" ("+card.vi+").";
+    ds=distract(others,3,c=>c.en,[correctText]).map(c=>({text:c.en,why:"Đó là nghĩa của *"+c.w+"*, không phải *"+boldOf(card)+"*.",correct:false}));
+    stem="“"+card.eg+"”   —   Từ **"+boldOf(card)+"** ở đây nghĩa là gì?";
+    gloss="Đoán nghĩa dựa vào ngữ cảnh của câu.";
+    tip="*"+card.w+"* = "+card.vi+".";
+  } else if(typeId==="colloc"){
+    correctText=pick(card.col,1)[0];
+    correctWhy="Đúng — “"+correctText+"” là collocation thường gặp của *"+card.w+"*.";
+    ds=distract(others.filter(c=>c.col&&c.col.length),3,c=>c.col[0],[correctText]).map(c=>({text:c.col[0],why:"“"+c.col[0]+"” đi với *"+c.w+"*, không phải *"+card.w+"*.",correct:false}));
+    stem="Cụm từ nào kết hợp (collocation) đúng với **"+card.w+"**?";
+    gloss=card.w+" — "+card.vi;
+    tip="Collocation của "+card.w+": "+card.col.join(", ")+".";
+  } else if(typeId==="def"){
+    correctText=card.w;
+    correctWhy="Đúng — *"+card.w+"* = "+card.en+".";
+    ds=distract(others,3,c=>c.w,[correctText]).map(c=>({text:c.w,why:"*"+c.w+"* nghĩa là "+c.en+".",correct:false}));
+    stem="Từ/cụm nào mang nghĩa sau: “"+card.en+"”?";
+    tip="*"+card.w+"* ("+card.p+") = "+card.vi+".   Ví dụ: "+plain(card.eg);
+  } else if(typeId==="usage"){
+    const w=card.w.replace(/^to /,"");
+    correctText=plain(card.eg);
+    correctWhy="Đúng — câu này dùng *"+card.w+"* đúng nghĩa: "+card.en+".";
+    ds=distract(others,3,c=>c.eg,[card.eg]).map(c=>({text:plain(c.eg).replace(boldOf(c),w),why:"Sai — câu gốc vốn dùng *"+c.w+"* ("+c.en+"), không phải *"+card.w+"*.",correct:false}));
+    stem="Câu nào dùng từ **"+card.w+"** đúng cách?";
+    gloss=card.w+" = "+card.vi;
+    tip="*"+card.w+"* = "+card.en+".";
+  } else { /* syn */
+    const s=SYN[card.w]||card.en;
+    correctText=s;
+    correctWhy="Đúng — *"+card.w+"* gần nghĩa với “"+s+"” ("+card.en+").";
+    ds=distract(others.filter(c=>SYN[c.w]),3,c=>SYN[c.w],[correctText]).map(c=>({text:SYN[c.w],why:"“"+SYN[c.w]+"” là từ đồng nghĩa của *"+c.w+"*, không phải *"+card.w+"*.",correct:false}));
+    stem="Trong câu: “"+card.eg+"”  —  Từ/cụm **"+boldOf(card)+"** gần nghĩa nhất với?";
+    gloss="Chọn cách diễn đạt khác cùng nghĩa (paraphrase).";
+    tip="*"+card.w+"* = "+card.vi+".   Đồng nghĩa: "+s+".";
+  }
+  const opts=shuffle([{text:correctText,why:correctWhy,correct:true},...ds]);
+  return {t:typeId,tTitle:null,stem,gloss,opts:opts.map(o=>o.text),a:opts.findIndex(o=>o.correct),why:opts.map(o=>o.why),tip};
+}
+function genQuestions(topic,typeId){
+  let pool=topic.cards.slice();
+  if(typeId==="colloc") pool=pool.filter(c=>c.col&&c.col.length);
+  if(typeId==="syn") pool=pool.filter(c=>SYN[c.w]);
+  const bases=pick(pool,Math.min(10,pool.length));
+  return bases.map(card=>{const q=buildQ(card,topic.cards.filter(c=>c!==card),typeId);q.tTitle=topic.name;return q;});
+}
+
+/* ============================ STATE ============================ */
+const PASS=90;
+const store={get(){try{return JSON.parse(localStorage.getItem("vlab2")||"{}")}catch(e){return{}}},set(o){try{localStorage.setItem("vlab2",JSON.stringify(o))}catch(e){}}};
+let S=Object.assign({deckSeen:{},scores:{},theme:null},store.get());
+if(!S.scores)S.scores={}; if(!S.deckSeen)S.deckSeen={};
+function save(){store.set(S);}
+const app=document.getElementById("app");
+let view="home", curTopic=null;
+let fc={topic:null,i:0,flipped:false};
+let qz=null;
+
+function go(v){view=v;render();window.scrollTo({top:0,behavior:"smooth"});}
+document.getElementById("brand").addEventListener("click",()=>go("home"));
+
+function esc(s){return String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
+function bold(s){return esc(s).replace(/\*\*(.+?)\*\*/g,"<em>$1</em>").replace(/\*(.+?)\*/g,"<i>$1</i>");}
+function topicScores(tid){return S.scores[tid]||{};}
+function passedCount(tid){return EX_TYPES.filter(t=>{const s=topicScores(tid)[t.id];return s&&s.pct>=PASS;}).length;}
+
+function render(){
+  if(view==="home")return renderHome();
+  if(view==="topic")return renderTopic();
+  if(view==="flash")return renderFlash();
+  if(view==="test")return renderQuiz();
+  if(view==="result")return renderResult();
+}
+
+/* ============================ HOME ============================ */
+function renderHome(){
+  const totPassed=TOPICS.reduce((a,t)=>a+passedCount(t.id),0);
+  let callout=`<div class="callout"><span style="font-size:1.3rem">📚</span><div>
+    <b>Cách học:</b> Mỗi chủ đề có <b>30 từ</b> và <b>6 dạng bài tập</b> (mỗi dạng 10 câu → 60 câu/chủ đề).
+    Làm lẻ từng dạng, hoặc bấm <b>Làm bài tổng</b> để làm cả 6 phần liền mạch. Câu sai luôn có <b>phân tích</b>; đạt <b>${PASS}%</b> là qua.</div></div>`;
+  if(totPassed>0){
+    callout=`<div class="callout" style="background:var(--amber-soft);border-color:var(--amber)">
+      <span style="font-size:1.3rem">🎯</span><div><b style="color:var(--amber)">Tiến độ: đã qua ${totPassed}/${TOPICS.length*EX_TYPES.length} dạng bài</b> —
+      tiếp tục chinh phục các dạng còn lại nhé.</div></div>`;
+  }
+  const decks=TOPICS.map(t=>{
+    const seen=S.deckSeen[t.id]||0, pct=Math.round(seen/t.cards.length*100);
+    const pc=passedCount(t.id);
+    const scLabel=pc?`<span class="status" style="color:${pc===EX_TYPES.length?'var(--good)':'var(--amber)'}">Bài tập: đã qua ${pc}/${EX_TYPES.length}</span>`
+                    :`<span class="status" style="color:var(--ink-soft)">Chưa làm bài tập</span>`;
+    return `<div class="deck">
+      <div class="top-row"><h3>${esc(t.name)}</h3><span class="tag">${esc(t.tag)}</span></div>
+      <div class="meta"><span>${t.cards.length} từ &amp; collocations</span><span>6 dạng × 10 câu</span></div>
+      <div class="bar"><i style="width:${pct}%"></i></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.2rem">
+        <span class="status" style="color:var(--ink-soft)">${seen?`Đã xem ${seen}/${t.cards.length} thẻ`:'Chưa học thẻ'}</span>${scLabel}
+      </div>
+      <div class="deck-actions">
+        <button class="btn ghost sm" data-flash="${t.id}">📇 Học thẻ</button>
+        <button class="btn sm" data-topic="${t.id}">✍️ Bài tập</button>
+      </div>
+    </div>`;
+  }).join("");
+  app.innerHTML=`<section class="view">
+    <div class="hero">
+      <div class="eyebrow">B2–C1 · IELTS 6.0–7.0</div>
+      <h1>Nạp từ vựng nhanh, nhớ lâu.</h1>
+      <p>360 từ &amp; collocations học thuật (40 từ × 9 chủ đề). Mỗi chủ đề có <b>6 dạng bài tập</b> (60 câu), làm lẻ hoặc gộp thành <b>một bài tổng</b>.</p>
+    </div>
+    ${callout}
+    <div class="eyebrow" style="margin-bottom:.7rem">6 chủ đề</div>
+    <div class="grid">${decks}</div>
+  </section>`;
+  app.querySelectorAll("[data-flash]").forEach(b=>b.addEventListener("click",()=>openFlash(b.dataset.flash)));
+  app.querySelectorAll("[data-topic]").forEach(b=>b.addEventListener("click",()=>openTopic(b.dataset.topic)));
+}
+
+/* ============================ TOPIC ============================ */
+function openTopic(tid){curTopic=tid;go("topic");}
+function renderTopic(){
+  const t=TOPICS.find(x=>x.id===curTopic);
+  const full=topicScores(t.id).__full;
+  const fullLabel=full?`<span class="status" style="color:${full.pct>=PASS?'var(--good)':'var(--amber)'};font-weight:600">Bài tổng: ${full.pct}%</span>`:"";
+  const rows=EX_TYPES.map((ex,i)=>{
+    const s=topicScores(t.id)[ex.id];
+    const label=s?`<span class="status" style="color:${s.pct>=PASS?'var(--good)':'var(--amber)'};font-weight:600">${s.pct>=PASS?'✓ Đạt':'Cần cải thiện'} · ${s.pct}%</span>`
+                 :`<span class="status" style="color:var(--ink-soft)">Chưa làm</span>`;
+    return `<div class="deck">
+      <div class="top-row"><h3 style="font-size:1.05rem">${i+1}. ${esc(ex.name)}</h3><span class="tag">10 câu</span></div>
+      <div class="meta"><span>${esc(ex.blurb)}</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:.6rem">
+        ${label}<button class="btn sm" data-ex="${ex.id}">Bắt đầu →</button>
+      </div>
+    </div>`;
+  }).join("");
+  app.innerHTML=`<section class="view">
+    <button class="btn ghost sm" id="back" style="margin-bottom:1rem">← Tất cả chủ đề</button>
+    <div class="eyebrow">${esc(t.tag)}</div>
+    <h2 style="font-size:1.5rem;margin:.1rem 0 .3rem">${esc(t.name)}</h2>
+    <p style="color:var(--ink-soft);margin:0 0 1rem">30 từ · 6 dạng bài tập, mỗi dạng 10 câu. Làm lẻ từng dạng, hoặc làm bài tổng 60 câu để kiểm tra toàn chủ đề.</p>
+    <div style="display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin-bottom:1.5rem">
+      <button class="btn" id="flashBtn">📇 Học 30 thẻ</button>
+      <button class="btn" id="fullBtn" style="background:var(--amber)">🧩 Làm bài tổng (60 câu)</button>
+      ${fullLabel}
+    </div>
+    <div class="eyebrow" style="margin-bottom:.7rem">Hoặc làm lẻ từng dạng</div>
+    <div class="grid">${rows}</div>
+  </section>`;
+  document.getElementById("back").addEventListener("click",()=>go("home"));
+  document.getElementById("flashBtn").addEventListener("click",()=>openFlash(t.id));
+  document.getElementById("fullBtn").addEventListener("click",()=>startFull(t.id));
+  app.querySelectorAll("[data-ex]").forEach(b=>b.addEventListener("click",()=>startSingle(t.id,b.dataset.ex)));
+}
+
+/* ============================ FLASHCARDS ============================ */
+function openFlash(tid){fc={topic:tid,i:0,flipped:false};go("flash");}
+function renderFlash(){
+  const t=TOPICS.find(x=>x.id===fc.topic);
+  const c=t.cards[fc.i], total=t.cards.length;
+  S.deckSeen[t.id]=Math.max(S.deckSeen[t.id]||0,fc.i+1);save();
+  const done=fc.i===total-1;
+  const dots=total<=16?`<div class="dots">${t.cards.map((_,k)=>`<i class="${k===fc.i?'on':''}"></i>`).join("")}</div>`:"";
+  app.innerHTML=`<section class="view">
+    <div class="fc-head">
+      <div><div class="eyebrow">${esc(t.tag)} · Flashcards</div><h2 style="font-size:1.35rem">${esc(t.name)}</h2></div>
+      <div class="fc-count">${fc.i+1} / ${total}</div>
+    </div>
+    <div class="flash ${fc.flipped?'flipped':''}" id="flash">
+      <div class="flash-inner">
+        <div class="face front">
+          <div class="pos">${esc(c.p)}</div>
+          <div class="word">${esc(c.w)}</div>
+          <div class="ipa">${esc(c.ipa)}</div>
+          <div class="flip-hint">Nhấn vào thẻ để xem nghĩa →</div>
+        </div>
+        <div class="face back">
+          <div class="pos">${esc(c.w)} · ${esc(c.p)}</div>
+          <div class="def-block"><div class="def-label">Definition</div>
+            <div class="def-en">${esc(c.en)}</div><div class="def-vi">${esc(c.vi)}</div></div>
+          <div class="eg">${bold(c.eg)}</div>
+          <div class="colloc">${c.col.map(x=>`<span>${esc(x)}</span>`).join("")}</div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-nav">
+      <button class="icon-btn" id="prev" ${fc.i===0?'disabled':''} aria-label="Trước">←</button>
+      ${dots||`<span class="fc-count">thẻ ${fc.i+1}/${total}</span>`}
+      <button class="icon-btn" id="next" ${done?'disabled':''} aria-label="Sau">→</button>
+    </div>
+    ${done?`<div class="fc-done">
+      <h3 style="font-size:1.2rem;margin-bottom:.4rem">Xong 30 thẻ! ✅</h3>
+      <p style="color:var(--ink-soft);margin:0 0 1rem">Vào làm bài tập của chủ đề <b>${esc(t.name)}</b> nhé.</p>
+      <div style="display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap">
+        <button class="btn" id="toQuiz">Làm bài tập chủ đề này</button>
+        <button class="btn ghost" id="back1">Về trang chủ</button>
+      </div></div>`:''}
+    <div style="text-align:center;margin-top:1.3rem">
+      <button class="btn ghost" id="backHome" style="font-size:.86rem">← Tất cả chủ đề</button>
+    </div>
+  </section>`;
+  const flash=document.getElementById("flash");
+  flash.addEventListener("click",()=>{fc.flipped=!fc.flipped;flash.classList.toggle("flipped");});
+  const prev=document.getElementById("prev"),next=document.getElementById("next");
+  if(prev)prev.addEventListener("click",()=>{if(fc.i>0){fc.i--;fc.flipped=false;renderFlash();}});
+  if(next)next.addEventListener("click",()=>{if(fc.i<total-1){fc.i++;fc.flipped=false;renderFlash();}});
+  document.getElementById("backHome").addEventListener("click",()=>go("home"));
+  const tq=document.getElementById("toQuiz");if(tq)tq.addEventListener("click",()=>openTopic(t.id));
+  const b1=document.getElementById("back1");if(b1)b1.addEventListener("click",()=>go("home"));
+}
+
+/* ============================ QUIZ ============================ */
+function runQuiz(tid,types,mode){
+  const t=TOPICS.find(x=>x.id===tid);
+  let qs=[];
+  types.forEach(ty=>{qs=qs.concat(genQuestions(t,ty));});
+  qz={tid,types,mode,title:t.name,qs,i:0,answers:new Array(qs.length).fill(null)};
+  go("test");
+}
+function startSingle(tid,typeId){runQuiz(tid,[typeId],"single");}
+function startFull(tid){runQuiz(tid,ALL_TYPES,"full");}
+function startWeak(tid,types){runQuiz(tid,types,"full");}
+
+const KEYS=["A","B","C","D"];
+function renderQuiz(){
+  const q=qz.qs[qz.i], ans=qz.answers[qz.i], answered=ans!==null, total=qz.qs.length;
+  const blankHTML=answered?`<span class="blank filled">${esc(q.opts[q.a])}</span>`:`<span class="blank"></span>`;
+  const stem=bold(q.stem).replace(/____/g,blankHTML);
+  const opts=q.opts.map((o,k)=>{
+    let cls="";
+    if(answered){ if(k===q.a)cls="correct"; else if(k===ans)cls="wrong"; }
+    const mark=answered?(k===q.a?'<span class="mark">✓ đúng</span>':(k===ans?'<span class="mark">✗ bạn chọn</span>':'')):'';
+    return `<button class="opt ${cls}" data-k="${k}" ${answered?'disabled':''}>
+      <span class="key">${KEYS[k]}</span><span style="flex:1 1 auto;min-width:0">${bold(o)}</span>${mark}</button>`;
+  }).join("");
+  let analysis="";
+  if(answered){
+    const ok=ans===q.a, correctText=q.opts[q.a];
+    const body=ok
+      ? `<p>${bold(q.why[q.a]||("“"+correctText+"” là đáp án đúng."))}</p>`
+      : `<div class="row"><b>Đáp án đúng:</b> ${bold(correctText)} — ${bold(q.why[q.a]||"")}</div>
+         <div class="why-wrong"><b>Vì sao “${esc(q.opts[ans])}” chưa đúng:</b> ${bold(q.why[ans]||"không phù hợp trong ngữ cảnh này.")}</div>`;
+    analysis=`<div class="analysis ${ok?'ok':'no'}">
+      <div class="verdict">${ok?'✓ Chính xác!':'✗ Chưa đúng'}</div>${body}
+      ${q.tip?`<div class="tip"><b>💡 Mẹo:</b> ${bold(q.tip)}</div>`:''}</div>`;
+  }
+  const isLast=qz.i===total-1;
+  const eyebrow=qz.mode==="full"?(esc(qz.title)+" · Bài tổng"):esc(qz.title);
+  app.innerHTML=`<section class="view">
+    <div class="quiz-head">
+      <div class="eyebrow">${eyebrow}</div>
+      <div class="qpos">Câu ${qz.i+1} / ${total}</div>
+    </div>
+    <div class="qcard">
+      <div class="qtype">${esc(TYPE_NAME[q.t])}</div>
+      <div class="qstem">${stem}</div>
+      ${q.gloss?`<div class="qgloss">Gợi ý: ${esc(q.gloss)}</div>`:''}
+      <div class="opts">${opts}</div>
+      ${analysis}
+      <div class="qfoot">
+        ${answered?`<span class="locked-note">✓ Đã đọc phân tích? Tiếp tục nhé.</span>`:`<span class="locked-note">🔒 Chọn đáp án để mở phân tích &amp; nút tiếp theo</span>`}
+        <button class="btn" id="nextq" ${answered?'':'disabled'}>${isLast?'Xem kết quả':'Câu tiếp theo →'}</button>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:1.2rem">
+      <button class="btn ghost" id="quit" style="font-size:.84rem">Thoát về danh sách bài</button>
+    </div>
+  </section>`;
+  app.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>{
+    if(qz.answers[qz.i]!==null)return;
+    qz.answers[qz.i]=parseInt(b.dataset.k);renderQuiz();
+  }));
+  document.getElementById("nextq").addEventListener("click",()=>{
+    if(qz.answers[qz.i]===null)return;
+    if(isLast){finishQuiz();}else{qz.i++;renderQuiz();window.scrollTo({top:0,behavior:"smooth"});}
+  });
+  document.getElementById("quit").addEventListener("click",()=>openTopic(qz.tid));
+}
+
+/* ============================ RESULT ============================ */
+function finishQuiz(){
+  const correct=qz.qs.filter((q,k)=>qz.answers[k]===q.a).length;
+  const pct=Math.round(correct/qz.qs.length*100);
+  const tm=S.scores[qz.tid]||(S.scores[qz.tid]={});
+  // update best score for each exercise type that appeared
+  qz.types.forEach(ty=>{
+    const idx=qz.qs.map((q,k)=>({q,k})).filter(x=>x.q.t===ty);
+    if(!idx.length)return;
+    const c=idx.filter(x=>qz.answers[x.k]===x.q.a).length;
+    const p=Math.round(c/idx.length*100);
+    const prev=tm[ty];
+    tm[ty]={pct:Math.max(p,prev?prev.pct:0),correct:c,n:idx.length,last:p};
+  });
+  if(qz.mode==="full"){const prev=tm.__full;tm.__full={pct:Math.max(pct,prev?prev.pct:0),correct,n:qz.qs.length,last:pct};}
+  save();
+  qz.result={correct,pct};
+  go("result");
+}
+function ring(pct,passed){
+  const circ=2*Math.PI*72, off=circ*(1-pct/100);
+  const col=passed?'var(--good)':(pct>=70?'var(--amber)':'var(--bad)');
+  return `<div class="score-ring">
+    <svg width="170" height="170" viewBox="0 0 170 170">
+      <circle cx="85" cy="85" r="72" fill="none" stroke="var(--surface-2)" stroke-width="13"/>
+      <circle cx="85" cy="85" r="72" fill="none" stroke="${col}" stroke-width="13" stroke-linecap="round"
+        stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/>
+    </svg><div class="pct"><b style="color:${col}">${pct}%</b><span>${qz.result.correct}/${qz.qs.length} đúng</span></div></div>`;
+}
+function renderResult(){
+  const {correct,pct}=qz.result, passed=pct>=PASS;
+  if(qz.mode==="full"){
+    const byType=qz.types.map(ty=>{
+      const idx=qz.qs.map((q,k)=>({q,k})).filter(x=>x.q.t===ty);
+      const c=idx.filter(x=>qz.answers[x.k]===x.q.a).length;
+      return {ty,name:TYPE_NAME[ty],c,n:idx.length,pct:Math.round(c/idx.length*100)};
+    });
+    const rows=byType.map(b=>`<div class="brow">
+      <span class="n">${esc(b.name)}</span><span class="sc">${b.c}/${b.n}</span>
+      <span class="pill ${b.pct>=PASS?'pass':'fail'}">${b.pct}%</span></div>`).join("");
+    const weak=byType.filter(b=>b.pct<PASS).map(b=>b.ty);
+    app.innerHTML=`<section class="view"><div class="result">
+      <div class="eyebrow">Bài tổng · ${esc(qz.title)}</div>
+      ${ring(pct,passed)}
+      <div class="verdict-big">${passed?'🎉 Đạt yêu cầu!':'🎯 Gần rồi — cố thêm chút nữa!'}</div>
+      <p class="sub">${passed?'Bạn đã vượt mốc '+PASS+'% cho toàn chủ đề. Xuất sắc!':'Toàn bài cần đạt '+PASS+'%. Xem từng phần bên dưới và làm lại phần điểm thấp để cải thiện.'}</p>
+      <div class="eyebrow" style="text-align:left">Điểm theo từng dạng</div>
+      <div class="breakdown">${rows}</div>
+      <div class="actions">
+        ${weak.length?`<button class="btn amber" id="weak">Làm lại ${weak.length} phần điểm thấp (${weak.length*10} câu)</button>`:''}
+        <button class="btn ${passed?'ghost':''}" id="retry">Làm lại cả bài tổng</button>
+        <button class="btn ghost" id="other">Danh sách các dạng</button>
+        <button class="btn ghost" id="home">Trang chủ</button>
+      </div>
+      ${weak.length?`<p class="mini">Cần cải thiện: ${weak.map(t=>esc(TYPE_NAME[t])).join(" · ")}</p>`:''}
+    </div></section>`;
+    const wk=document.getElementById("weak");if(wk)wk.addEventListener("click",()=>startWeak(qz.tid,weak));
+    document.getElementById("retry").addEventListener("click",()=>startFull(qz.tid));
+    document.getElementById("other").addEventListener("click",()=>openTopic(qz.tid));
+    document.getElementById("home").addEventListener("click",()=>go("home"));
+    if(passed)burst();
+    return;
+  }
+  // single-exercise result
+  const typeId=qz.types[0], total=qz.qs.length;
+  const wrong=qz.qs.map((q,k)=>({q,k,chosen:qz.answers[k]})).filter(x=>x.chosen!==x.q.a);
+  const wrongList=wrong.length?`<div class="eyebrow" style="text-align:left">Các câu cần xem lại (${wrong.length})</div>
+    <div class="breakdown">${wrong.map(x=>`<div class="brow">
+      <span class="n">Câu ${x.k+1}: <b>${esc(x.q.opts[x.q.a])}</b></span>
+      <span class="pill fail">bạn chọn: ${esc(x.q.opts[x.chosen])}</span></div>`).join("")}</div>`:'';
+  app.innerHTML=`<section class="view"><div class="result">
+    <div class="eyebrow">${esc(TYPE_NAME[typeId])} · ${esc(qz.title)}</div>
+    ${ring(pct,passed)}
+    <div class="verdict-big">${passed?'🎉 Đạt yêu cầu!':'🎯 Gần rồi — cố thêm chút nữa!'}</div>
+    <p class="sub">${passed?'Bạn đã vượt mốc '+PASS+'% cho dạng bài này. Rất tốt!':'Dạng bài này cần đạt '+PASS+'% (9/10). Xem lại các câu sai rồi làm lại — đề sẽ được xáo mới.'}</p>
+    ${wrongList}
+    <div class="actions">
+      <button class="btn ${passed?'ghost':'amber'}" id="retry">Làm lại dạng này</button>
+      <button class="btn ghost" id="other">Dạng bài khác</button>
+      <button class="btn ghost" id="review">📇 Ôn thẻ</button>
+      <button class="btn ${passed?'':'ghost'}" id="home">Trang chủ</button>
+    </div>
+  </div></section>`;
+  document.getElementById("retry").addEventListener("click",()=>startSingle(qz.tid,typeId));
+  document.getElementById("other").addEventListener("click",()=>openTopic(qz.tid));
+  document.getElementById("review").addEventListener("click",()=>openFlash(qz.tid));
+  document.getElementById("home").addEventListener("click",()=>go("home"));
+  if(passed)burst();
+}
+
+/* ============================ CONFETTI ============================ */
+function burst(){
+  const c=document.createElement("canvas");c.className="confetti";
+  c.width=innerWidth;c.height=innerHeight;document.body.appendChild(c);
+  const ctx=c.getContext("2d"),cols=["#0e7c6b","#b5781a","#1f7a4d","#3ec9af","#e3a94a"];
+  let P=Array.from({length:120},()=>({x:Math.random()*c.width,y:-20-Math.random()*c.height*.3,
+    r:4+Math.random()*6,vy:2+Math.random()*4,vx:-2+Math.random()*4,col:cols[Math.random()*cols.length|0],a:1,rot:Math.random()*6}));
+  let t0=performance.now();
+  (function loop(t){ctx.clearRect(0,0,c.width,c.height);
+    P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.05;p.rot+=.1;p.a-=.006;
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.globalAlpha=Math.max(0,p.a);
+      ctx.fillStyle=p.col;ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*1.6);ctx.restore();});
+    if(t-t0<2600 && !matchMedia("(prefers-reduced-motion:reduce)").matches)requestAnimationFrame(loop);else c.remove();
+  })(t0);
+}
+
+/* ============================ THEME ============================ */
+const tbtn=document.getElementById("theme");
+function applyTheme(){const th=S.theme;if(th)document.documentElement.setAttribute("data-theme",th);else document.documentElement.removeAttribute("data-theme");}
+tbtn.addEventListener("click",()=>{
+  const cur=document.documentElement.getAttribute("data-theme");
+  const isDark=cur==="dark"||(!cur&&matchMedia("(prefers-color-scheme:dark)").matches);
+  S.theme=isDark?"light":"dark";save();applyTheme();
+});
+applyTheme();
+render();
+</script>
+
+</body></html>
